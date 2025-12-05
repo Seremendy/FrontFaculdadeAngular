@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FaculdadeAngular
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
@@ -57,3 +58,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# FrontFaculdadeAngular
+Parte do front-end da faculdade em Angular
+>>>>>>> b8009dc30a2ba8335b000f30bde887fd0da01eae
