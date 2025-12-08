@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
+import { CursoListComponent } from './pages/curso-list/curso-list.component';
+import { RegisterComponent } from './pages/register/register.component'; // Importe
 
 export const routes: Routes = [
-  // Esta linha diz: se o caminho for vazio, vá para 'login'
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  
-  // Esta linha diz: quando o caminho for 'login', mostre o LoginComponent
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'cursos', component: CursoListComponent },
+  { path: 'register', component: RegisterComponent } 
 ];

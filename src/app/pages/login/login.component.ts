@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service'; // <--- Importante
+import { Router } from '@angular/router'; // 1. Garanta que o Router está importado
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +24,7 @@ import { AuthService } from '../../services/auth.service'; // <--- Importante
     </div>
   `,
   styles: [`
+    /* ... seus estilos anteriores ... */
     .login-container { padding: 20px; text-align: center; max-width: 400px; margin: 50px auto; border: 1px solid #ddd; border-radius: 8px; }
     input { width: 80%; padding: 10px; margin-bottom: 10px; }
     button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
@@ -31,8 +32,8 @@ import { AuthService } from '../../services/auth.service'; // <--- Importante
   `]
 })
 export class LoginComponent {
-  private authService = inject(AuthService); // <--- Injeção do serviço
-  private router = inject(Router);
+  private authService = inject(AuthService);
+  private router = inject(Router); // 2. Injeção do Router
 
   login = '';
   senha = '';
@@ -40,30 +41,28 @@ export class LoginComponent {
   sucesso = false;
 
   fazerLogin() {
-    console.log(`Tentativa de login: ${this.login} / ${this.senha}`); // Seu log atual
+    this.mensagem = 'Autenticando...';
 
     const dadosLogin = { login: this.login, senha: this.senha };
 
-    // CHAMADA REAL À API
     this.authService.login(dadosLogin).subscribe({
       next: (resposta) => {
         this.sucesso = true;
-        this.mensagem = 'Login realizado com sucesso!';
-        console.log('Token recebido:', resposta.token); // <--- Procure por isso
+        this.mensagem = 'Login realizado! Redirecionando...';
         
+        // 3. SALVAR O TOKEN (Isso é crucial)
         localStorage.setItem('meuToken', resposta.token);
         
-        // Se quiser redirecionar o admin após login:
-        // this.router.navigate(['/register']); 
+        // 4. NAVEGAR PARA A PÁGINA DE CURSOS
+        // O Angular vai trocar a tela de Login pela de Cursos
+        setTimeout(() => {
+            this.router.navigate(['/cursos']);
+        }, 1000); // Um pequeno delay para o usuário ver a mensagem de sucesso
       },
       error: (erro) => {
         this.sucesso = false;
-        console.error('Erro no login:', erro); // <--- Ou isso
-        if (erro.status === 401) {
-          this.mensagem = 'Login ou senha incorretos.';
-        } else {
-          this.mensagem = 'Erro ao conectar no servidor. (Verifique se a API está rodando)';
-        }
+        console.error(erro);
+        this.mensagem = 'Erro no login. Verifique usuário e senha.';
       }
     });
   }
