@@ -7,8 +7,8 @@ import { LoginRequest, LoginResponse } from '../models/auth.models';
   providedIn: 'root'
 })
 export class AuthService {
-  // ATENÇÃO: Verifique se esta porta (5274) é a mesma que seu backend está rodando
-  private apiUrl = 'http://localhost:5274/api/Auth'; 
+  
+  private apiUrl = 'https://localhost:7174/api/Auth';
   private tokenKey = 'token_faculdade';
 
   constructor(private http: HttpClient) { }

@@ -8,13 +8,28 @@ import { Curso } from '../models/curso.model';
 })
 export class CursoService {
   private http = inject(HttpClient);
-  
-  private apiUrl = 'https://localhost:5274/api/Cursos'; 
+  // Mantém a URL que funcionou (http ou https)
+  private apiUrl = 'https://localhost:7174/api/Cursos'; 
 
   constructor() { }
 
   listar(): Observable<Curso[]> {
-    // O Interceptor vai adicionar o token Bearer aqui automaticamente
     return this.http.get<Curso[]>(this.apiUrl);
+  }
+
+  cadastrar(dados: any): Observable<any> {
+    return this.http.post(this.apiUrl, dados);
+  }
+
+  excluir(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  obterPorId(id: number): Observable<Curso> {
+    return this.http.get<Curso>(`${this.apiUrl}/${id}`);
+  }
+
+  atualizar(id: number, dados: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, dados);
   }
 }
