@@ -2,8 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-// Serviços
 import { MatriculaService, Matricula } from '../../services/matricula.service';
 import { AlunoService, Aluno } from '../../services/aluno.service';
 import { CursoService, Curso } from '../../services/curso.service';
@@ -63,17 +61,16 @@ import { CursoService, Curso } from '../../services/curso.service';
   `]
 })
 export class MatriculaCreateComponent implements OnInit {
-  // Injeções
   private matriculaService = inject(MatriculaService);
   private alunoService = inject(AlunoService);
   private cursoService = inject(CursoService);
   private router = inject(Router);
 
-  // Dados para os Dropdowns
+
   alunos: Aluno[] = [];
   cursos: Curso[] = [];
 
-  // Dados do Formulário
+  
   selectedAlunoID = 0;
   selectedCursoID = 0;
   dataMatricula = new Date().toISOString().split('T')[0]; // Data de hoje
@@ -83,15 +80,12 @@ export class MatriculaCreateComponent implements OnInit {
   }
 
   carregarListas() {
-    // Busca Alunos
     this.alunoService.getAlunos().subscribe({
         next: (dados) => this.alunos = dados,
         error: (e: any) => console.error('Erro alunos:', e)
     });
 
-    // Busca Cursos
-    // OBS: Verifique se seu serviço usa 'listar()' ou 'getAll()'. 
-    // Baseado no último ajuste, usamos 'listar()'.
+   
     this.cursoService.listar().subscribe({
         next: (dados) => this.cursos = dados,
         error: (e: any) => console.error('Erro cursos:', e)

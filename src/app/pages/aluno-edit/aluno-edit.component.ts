@@ -39,7 +39,6 @@ import { AlunoService, Aluno } from '../../services/aluno.service';
       </div>
     </div>
   `,
-  // Reutilizando os estilos do Create
   styles: [`
     .form-container { max-width: 500px; margin: 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: sans-serif; }
     h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
@@ -67,7 +66,6 @@ export class AlunoEditComponent implements OnInit {
   dataNascimento = '';
 
   ngOnInit() {
-    // 1. Pega o ID da URL (ex: /alunos/editar/5)
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     if (this.id) this.carregarDados();
   }
@@ -78,8 +76,6 @@ export class AlunoEditComponent implements OnInit {
             this.nome = aluno.alunoNome;
             this.cpf = aluno.cpf;
             this.rg = aluno.rg;
-            // Precisamos cortar a data para o formato yyyy-MM-dd que o input aceita
-            // Ex: "2000-01-01T00:00:00" -> "2000-01-01"
             if (aluno.dataNascimento) {
                 this.dataNascimento = aluno.dataNascimento.split('T')[0];
             }

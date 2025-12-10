@@ -80,28 +80,27 @@ import { AuthService } from '../../services/auth.service';
     </div>
   `,
   styles: [`
-    /* RESET BÁSICO */
+    
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* LAYOUT GERAL */
+    
     .layout-wrapper {
       display: flex;
-      height: 100vh; /* Ocupa a tela toda */
+      height: 100vh; 
       width: 100vw;
       font-family: 'Segoe UI', sans-serif;
-      overflow: hidden; /* Evita scroll duplo */
+      overflow: hidden; 
     }
 
-    /* --- ESTILOS DA SIDEBAR --- */
+    
     .sidebar {
       width: 260px;
-      background-color: #1e293b; /* Azul Escuro Moderno */
+      background-color: #1e293b; 
       color: #f1f5f9;
       display: flex;
       flex-direction: column;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      flex-shrink: 0; /* Não deixa encolher */
-    }
+      flex-shrink: 0; 
 
     .logo-area {
       padding: 30px 20px;
@@ -111,7 +110,7 @@ import { AuthService } from '../../services/auth.service';
     .logo-area h2 { font-size: 1.5rem; color: #38bdf8; letter-spacing: 1px; }
     .subtitle { font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; }
 
-    /* NAVEGAÇÃO */
+    
     .menu { flex: 1; padding: 20px 10px; overflow-y: auto; }
     .menu ul { list-style: none; }
     .menu li { margin-bottom: 8px; }
@@ -133,9 +132,9 @@ import { AuthService } from '../../services/auth.service';
       transform: translateX(5px);
     }
 
-    /* LINK ATIVO (Quando você está na página) */
+    
     .menu a.active {
-      background-color: #0ea5e9; /* Azul vibrante */
+      background-color: #0ea5e9; 
       color: white;
       font-weight: 600;
       box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
@@ -143,11 +142,11 @@ import { AuthService } from '../../services/auth.service';
 
     .icon { margin-right: 12px; font-size: 1.1rem; }
 
-    /* SEÇÃO ADMIN */
+    
     .admin-section { margin-top: 20px; padding-left: 15px; margin-bottom: 10px; }
     .section-title { font-size: 0.7rem; color: #64748b; font-weight: bold; letter-spacing: 1px; }
 
-    /* PERFIL DO USUÁRIO */
+
     .user-profile {
       padding: 20px;
       background-color: #0f172a;
@@ -170,12 +169,11 @@ import { AuthService } from '../../services/auth.service';
     }
     .btn-logout:hover { background-color: #ef4444; } /* Vermelho ao passar o mouse */
 
-    /* --- ÁREA DE CONTEÚDO --- */
     .content-area {
-      flex: 1; /* Ocupa o resto do espaço */
-      background-color: #f8fafc; /* Cinza muito claro */
+      flex: 1; 
+      background-color: #f8fafc; 
       padding: 0;
-      overflow-y: auto; /* Scroll apenas no conteúdo */
+      overflow-y: auto; 
     }
   `]
 })
@@ -186,19 +184,13 @@ export class MainLayoutComponent implements OnInit {
   isAdmin = false;
 
   ngOnInit() {
-    // Verifica se é admin para mostrar o menu "Usuários"
+    
     this.checkRole();
   }
 
   checkRole() {
-    // Tenta decodificar o token ou pegar do localStorage se você salvou a role lá
-    // Por simplicidade, vamos assumir que o token está salvo e validar se existe.
-    // O ideal seria o AuthService ter um método getUserRole(), mas faremos simples:
     const token = this.authService.getToken();
     if (token) {
-        // Lógica simplificada: Em um app real, decodificaríamos o JWT.
-        // Se você salvou a role no login, pegue aqui. 
-        // Se não, vamos deixar true para você testar por enquanto.
         this.isAdmin = true; 
     }
   }

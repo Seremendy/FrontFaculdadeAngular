@@ -42,7 +42,7 @@ export const routes: Routes = [
       { path: 'professores/editar/:id', component: ProfessorEditComponent },
 
       { path: 'notas', component: NotaListComponent },
-      { path: 'notas/novo', component: NotaCreateComponent },     // <--- NOVO
+      { path: 'notas/novo', component: NotaCreateComponent },     
       { path: 'notas/editar/:id', component: NotaEditComponent },
 
       { path: 'matriculas', component: MatriculaListComponent },

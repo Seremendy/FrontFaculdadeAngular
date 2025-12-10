@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; // <--- 1. Importe ChangeDetectorRef
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -57,9 +57,8 @@ export class NotaEditComponent implements OnInit {
         next: (dados: Nota) => {
           console.log('Dados recebidos e atribuindo à variável:', dados);
           
-          this.nota = dados; // Atualiza a variável
+          this.nota = dados; 
           
-          // 3. O PULO DO GATO: Força o Angular a atualizar a tela AGORA
           this.cd.detectChanges(); 
         },
         error: (err: any) => {

@@ -75,7 +75,7 @@ export class MatriculaListComponent implements OnInit {
         this.matriculas = dados;
         this.loading = false;
       },
-      error: (err: any) => { // Adicionei a tipagem :any
+      error: (err: any) => { 
         console.error(err);
         this.loading = false;
       }
@@ -86,7 +86,7 @@ export class MatriculaListComponent implements OnInit {
     if(confirm('Deseja cancelar esta matrícula?')) {
       this.service.delete(id).subscribe({
         next: () => this.carregar(),
-        error: (err: any) => console.error(err) // Adicionei a tipagem :any
+        error: (err: any) => console.error(err) 
       });
     }
   }

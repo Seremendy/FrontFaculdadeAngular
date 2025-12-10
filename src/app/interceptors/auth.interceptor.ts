@@ -6,7 +6,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const platformId = inject(PLATFORM_ID);
   let token = null;
 
-  // VERIFICAÇÃO DE SEGURANÇA: Só acessa localStorage se for navegador
   if (isPlatformBrowser(platformId)) {
     token = localStorage.getItem('token');
   }

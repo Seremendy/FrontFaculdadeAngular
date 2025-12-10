@@ -104,7 +104,7 @@ export class NotaListComponent implements OnInit {
     return encontrado ? encontrado.nomeDisciplina : 'Desconhecida';
   }
 
-  deletar(id: number) { // Recebe ID
+  deletar(id: number) { 
     if(confirm('Excluir nota?')) {
         this.notaService.delete(id).subscribe(() => this.carregarTudo());
     }
@@ -114,7 +114,7 @@ export class NotaListComponent implements OnInit {
     this.router.navigate(['/notas/novo']);
   }
 
-  // IMPLEMENTAÇÃO DO EDITAR QUE FALTAVA
+
   editar(id: number) {
     this.router.navigate(['/notas/editar', id]);
   }

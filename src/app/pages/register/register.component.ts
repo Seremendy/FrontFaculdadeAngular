@@ -94,15 +94,13 @@ export class RegisterComponent {
         this.mensagem = 'Usuário criado com sucesso!';
         this.limparFormulario();
         
-        // Se quiser redirecionar automaticamente depois de um tempo:
-        // setTimeout(() => this.voltar(), 1500);
       },
       error: (err) => {
         console.dir(err);
         this.sucesso = false;
         this.loading = false;
 
-        // Lógica robusta de erro que você implementou
+        
         if (err.error && err.error.errors) {
           const chavesErros = Object.keys(err.error.errors);
           if (chavesErros.length > 0) {

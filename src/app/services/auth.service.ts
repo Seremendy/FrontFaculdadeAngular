@@ -19,11 +19,10 @@ export class AuthService {
   login(usuario: LoginRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, usuario).pipe(
       tap(response => {
-        // Sucesso! O Backend devolveu um token. Vamos guardar.
+        
         if (response.token) {
           localStorage.setItem('token', response.token);
-          // Opcional: Salvar o usuário também se o backend devolver
-          // localStorage.setItem('user', JSON.stringify(response.user)); 
+        
         }
       })
     );

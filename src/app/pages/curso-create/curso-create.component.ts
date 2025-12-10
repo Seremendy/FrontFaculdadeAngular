@@ -38,14 +38,13 @@ export class CursoCreateComponent {
   private cursoService = inject(CursoService);
   private router = inject(Router);
 
-  // Variáveis para o formulário
+  
   nomeCurso = '';
   descricao = '';
   mensalidade = 0;
-  departamentoID = 0; // Valor padrão
+  departamentoID = 0; 
 
   salvar() {
-    // Montando o objeto COMPLETO que a interface pede
     const novoCurso: Curso = {
       nomeCurso: this.nomeCurso,
       descricao: this.descricao,

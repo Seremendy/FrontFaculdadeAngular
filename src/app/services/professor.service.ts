@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 export interface Professor {
   professorID?: number;
-  professorNome: string; // Atenção: deve ser igual à coluna do banco
+  professorNome: string; 
   formacao: string;
   email: string;
 }
@@ -12,7 +12,7 @@ export interface Professor {
 @Injectable({ providedIn: 'root' })
 export class ProfessorService {
   private http = inject(HttpClient);
-  // Ajuste a porta se necessário (7174 ou a sua)
+  
   private apiUrl = 'https://localhost:7174/api/Professores'; 
 
   getAll(): Observable<Professor[]> {

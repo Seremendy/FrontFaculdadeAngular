@@ -107,7 +107,7 @@ export class UsuarioListComponent implements OnInit {
   }
 
   irParaNovo() {
-    this.router.navigate(['/register']); // Vai para a tela de cadastro que já criamos
+    this.router.navigate(['/register']); 
   }
 
   deletar(id: number) {
@@ -115,7 +115,7 @@ export class UsuarioListComponent implements OnInit {
       this.authService.deleteUser(id).subscribe({
         next: () => {
           alert('Usuário removido com sucesso!');
-          this.carregarUsuarios(); // Atualiza a tabela na hora
+          this.carregarUsuarios();
         },
         error: (err) => {
           console.error(err);

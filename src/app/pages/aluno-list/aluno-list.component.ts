@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Router } from '@angular/router'; // Import do Router
+import { Router } from '@angular/router';
 import { AlunoService, Aluno } from '../../services/aluno.service';
 
 @Component({
@@ -66,7 +66,6 @@ import { AlunoService, Aluno } from '../../services/aluno.service';
   `]
 })
 export class AlunoListComponent implements OnInit {
-  // 1. INJEÇÕES E VARIÁVEIS QUE FALTAVAM
   private alunoService = inject(AlunoService);
   private router = inject(Router); 
 
@@ -91,7 +90,7 @@ export class AlunoListComponent implements OnInit {
     });
   }
 
-  // Navegação
+
   irParaNovo() {
     this.router.navigate(['/alunos/novo']);
   }

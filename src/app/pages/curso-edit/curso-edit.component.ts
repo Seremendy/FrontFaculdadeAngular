@@ -53,7 +53,6 @@ export class CursoEditComponent implements OnInit {
         this.nomeCurso = curso.nomeCurso;
         this.descricao = curso.descricao;
         this.mensalidade = curso.mensalidade;
-        // Usa o operador '??' para garantir que não fique undefined
         this.departamentoID = curso.departamentoID ?? 0;
       },
       error: (e: any) => console.error(e)

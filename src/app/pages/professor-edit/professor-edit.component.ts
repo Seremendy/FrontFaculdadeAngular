@@ -31,7 +31,7 @@ import { ProfessorService, Professor } from '../../services/professor.service';
       </div>
     </div>
   `,
-  // Reutiliza estilos
+  
   styles: [`
     .form-container { max-width: 500px; margin: 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: sans-serif; }
     h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; }

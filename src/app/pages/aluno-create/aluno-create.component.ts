@@ -69,7 +69,6 @@ export class AlunoCreateComponent {
   dataNascimento = '';
 
   salvar() {
-    // Validação simples
     if (!this.nome || !this.cpf || !this.dataNascimento) {
         alert('Preencha os campos obrigatórios!');
         return;

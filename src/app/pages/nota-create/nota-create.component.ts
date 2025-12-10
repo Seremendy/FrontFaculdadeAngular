@@ -2,8 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-// Serviços
 import { NotaService, Nota } from '../../services/nota.service';
 import { DisciplinaService, Disciplina } from '../../services/disciplina.service';
 import { AlunoService, Aluno } from '../../services/aluno.service';
@@ -65,11 +63,11 @@ export class NotaCreateComponent implements OnInit {
   private disciplinaService = inject(DisciplinaService);
   private alunoService = inject(AlunoService);
 
-  // Listas para popular os selects
+
   disciplinas: Disciplina[] = [];
   alunos: Aluno[] = [];
 
-  // Variáveis do formulário
+ 
   selectedAlunoID = 0;
   selectedDisciplinaID = 0;
   notaValor: number | null = null;

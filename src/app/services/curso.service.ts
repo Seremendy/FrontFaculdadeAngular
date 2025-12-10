@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Curso {
-  cursoID?: number; // O '?' significa que pode ser nulo (na criação)
+  cursoID?: number; 
   nomeCurso: string;
   descricao: string;
   mensalidade: number;
-  departamentoID?: number; // ADICIONADO: Agora a interface aceita departamentoID
+  departamentoID?: number;
 }
 
 @Injectable({ providedIn: 'root' })

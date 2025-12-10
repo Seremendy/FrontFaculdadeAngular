@@ -51,7 +51,6 @@ import { Router } from '@angular/router';
     
     .btn-novo { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
     
-    /* CORREÇÃO 3: Estilo do botão editar */
     .btn-editar { background: #ffc107; padding: 5px 10px; margin-right: 5px; border: none; border-radius: 4px; cursor: pointer; }
     .btn-excluir { background: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
     
