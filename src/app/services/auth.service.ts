@@ -41,4 +41,12 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+
+  deleteUser(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
 }
