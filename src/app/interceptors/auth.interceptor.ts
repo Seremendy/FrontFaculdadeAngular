@@ -1,20 +1,24 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  // 1. Tenta pegar o token salvo no navegador
-  const token = localStorage.getItem('token');
+  const platformId = inject(PLATFORM_ID);
+  let token = null;
 
-  // 2. Se tiver token, a gente clona a requisição e adiciona o cabeçalho
+  // VERIFICAÇÃO DE SEGURANÇA: Só acessa localStorage se for navegador
+  if (isPlatformBrowser(platformId)) {
+    token = localStorage.getItem('token');
+  }
+
   if (token) {
     const cloned = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
-    // Passa a requisição alterada (com token) para frente
     return next(cloned);
   }
 
-  // 3. Se não tiver token (login), passa a requisição original
   return next(req);
 };

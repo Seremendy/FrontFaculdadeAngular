@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CursoService } from '../../services/curso.service';
+import { CursoService, Curso } from '../../services/curso.service';
 
 @Component({
   selector: 'app-curso-create',
@@ -11,86 +11,56 @@ import { CursoService } from '../../services/curso.service';
   template: `
     <div class="container">
       <h2>Novo Curso</h2>
-
-      <div class="form-group">
-        <label>Nome do Curso:</label>
-        <input type="text" [(ngModel)]="nomeCurso" placeholder="Ex: Engenharia Civil">
-      </div>
-
-      <div class="form-group">
-        <label>ID do Departamento:</label>
-        <input type="number" [(ngModel)]="departamentoID" placeholder="Ex: 1">
-        <small style="color: #666; display: block; margin-top: 5px;">(Consulte os IDs na lista de departamentos)</small>
-      </div>
-
-      <button (click)="salvar()" [disabled]="loading" class="btn-save">
-        {{ loading ? 'Salvando...' : 'Salvar Curso' }}
-      </button>
       
-      <button (click)="cancelar()" class="btn-cancel">Cancelar</button>
+      <label>Nome:</label>
+      <input [(ngModel)]="nomeCurso" type="text" placeholder="Ex: Engenharia">
 
-      <p *ngIf="mensagem" [class.erro]="!sucesso" [class.sucesso]="sucesso">
-        {{ mensagem }}
-      </p>
+      <label>Descrição:</label>
+      <input [(ngModel)]="descricao" type="text" placeholder="Ex: Curso de bacharelado...">
+
+      <label>Mensalidade (R$):</label>
+      <input [(ngModel)]="mensalidade" type="number">
+
+      <label>ID Departamento:</label>
+      <input [(ngModel)]="departamentoID" type="number">
+
+      <button (click)="salvar()">Salvar</button>
+      <button (click)="cancelar()">Cancelar</button>
     </div>
   `,
   styles: [`
-    .container { padding: 20px; max-width: 500px; font-family: Arial, sans-serif; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; }
-    input { width: 100%; padding: 8px; box-sizing: border-box; }
-    button { padding: 10px 15px; margin-right: 10px; border: none; cursor: pointer; border-radius: 4px; color: white; }
-    .btn-save { background-color: #28a745; }
-    .btn-save:hover { background-color: #218838; }
-    .btn-cancel { background-color: #6c757d; }
-    .btn-cancel:hover { background-color: #5a6268; }
-    .erro { color: red; margin-top: 10px; }
-    .sucesso { color: green; margin-top: 10px; }
+     .container { padding: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 400px; }
+     input { padding: 8px; }
+     button { padding: 10px; cursor: pointer; }
   `]
 })
 export class CursoCreateComponent {
   private cursoService = inject(CursoService);
   private router = inject(Router);
 
+  // Variáveis para o formulário
   nomeCurso = '';
-  departamentoID: number | null = null;
-  
-  loading = false;
-  mensagem = '';
-  sucesso = false;
+  descricao = '';
+  mensalidade = 0;
+  departamentoID = 0; // Valor padrão
 
   salvar() {
-    // Validação simples
-    if (!this.nomeCurso || !this.departamentoID) {
-      this.mensagem = 'Preencha todos os campos!';
-      this.sucesso = false;
-      return;
-    }
-
-    this.loading = true;
-    this.mensagem = '';
-
-    const novoCurso = {
+    // Montando o objeto COMPLETO que a interface pede
+    const novoCurso: Curso = {
       nomeCurso: this.nomeCurso,
+      descricao: this.descricao,
+      mensalidade: this.mensalidade,
       departamentoID: this.departamentoID
     };
 
     this.cursoService.cadastrar(novoCurso).subscribe({
       next: () => {
-        this.sucesso = true;
-        this.mensagem = 'Curso cadastrado com sucesso!';
-        this.loading = false;
-        
-        // Redireciona após 1.5 segundos
-        setTimeout(() => {
-          this.router.navigate(['/cursos']);
-        }, 1500);
+        alert('Curso criado!');
+        this.router.navigate(['/cursos']);
       },
-      error: (e) => {
-        this.loading = false;
-        this.sucesso = false;
+      error: (e: any) => {
         console.error(e);
-        this.mensagem = 'Erro ao salvar. Verifique o console.';
+        alert('Erro ao salvar.');
       }
     });
   }

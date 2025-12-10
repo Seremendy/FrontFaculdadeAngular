@@ -1,43 +1,41 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { CursoService, Curso } from '../../services/curso.service';
-import { Router } from '@angular/router'; // Adicione Router para navegar para editar
+import { CommonModule } from '@angular/common';
+import { ProfessorService, Professor } from '../../services/professor.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-curso-list',
+  selector: 'app-professor-list',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe],
+  imports: [CommonModule],
   template: `
     <div class="page-container">
       <header>
-        <h2>📚 Cursos Disponíveis</h2>
-        <button class="btn-novo" (click)="irParaNovo()">+ Novo Curso</button>
+        <h2>👨‍🏫 Corpo Docente</h2>
+        <button class="btn-novo" (click)="irParaNovo()">+ Novo Professor</button>
       </header>
 
-      @if (loading) { <p class="loading">Carregando cursos...</p> } 
+      @if (loading) { <p class="loading">Carregando professores...</p> } 
       @else {
         <div class="table-container">
           <table>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Nome</th>
-                <th>Mensalidade</th>
+                <th>Formação</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
-              @for (curso of cursos; track curso.cursoID) {
+              @for (prof of professores; track prof.professorID) {
                 <tr>
-                  <td>#{{ curso.cursoID }}</td>
-                  <td><strong>{{ curso.nomeCurso }}</strong></td>
-                  <td class="money">{{ curso.mensalidade | currency:'BRL' }}</td>
+                  <td><strong>{{ prof.professorNome }}</strong></td>
+                  <td>{{ prof.formacao }}</td>
                   <td>
-                    <button class="btn-editar" (click)="editar(curso.cursoID!)">Editar</button>
-                    <button class="btn-excluir" (click)="deletar(curso.cursoID!)">Excluir</button>
+                    <button class="btn-editar" (click)="editar(prof.professorID!)">Editar</button>
+                    <button class="btn-excluir" (click)="deletar(prof.professorID!)">Excluir</button>
                   </td>
                 </tr>
-              } @empty { <tr><td colspan="4" class="empty">Nenhum curso.</td></tr> }
+              } @empty { <tr><td colspan="3" class="empty">Nenhum professor cadastrado.</td></tr> }
             </tbody>
           </table>
         </div>
@@ -50,43 +48,45 @@ import { Router } from '@angular/router'; // Adicione Router para navegar para e
     table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
     th { background-color: #f8f9fa; font-weight: bold; }
+    
     .btn-novo { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    
+    /* CORREÇÃO 3: Estilo do botão editar */
     .btn-editar { background: #ffc107; padding: 5px 10px; margin-right: 5px; border: none; border-radius: 4px; cursor: pointer; }
     .btn-excluir { background: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
-    .money { color: #2ecc71; font-weight: bold; }
+    
     .loading, .empty { text-align: center; padding: 20px; color: #666; }
   `]
 })
-export class CursoListComponent implements OnInit {
-  private service = inject(CursoService);
+export class ProfessorListComponent implements OnInit {
   private router = inject(Router);
-
-  cursos: Curso[] = [];
+  private service = inject(ProfessorService);
+  professores: Professor[] = [];
   loading = true;
 
   ngOnInit() { this.carregar(); }
 
   carregar() {
-    this.service.listar().subscribe({
-      next: (d) => { this.cursos = d; this.loading = false; },
+    this.service.getAll().subscribe({
+      next: (d) => { this.professores = d; this.loading = false; },
       error: (e: any) => { console.error(e); this.loading = false; }
     });
   }
 
-  irParaNovo() {
-    this.router.navigate(['/cursos/novo']);
-  }
-
-  editar(id: number) {
-    this.router.navigate(['/cursos/editar', id]);
-  }
-
   deletar(id: number) {
-    if(confirm('Excluir curso?')) {
-        this.service.excluir(id).subscribe({
+    if(confirm('Excluir professor?')) {
+        this.service.delete(id).subscribe({
             next: () => this.carregar(),
             error: (e: any) => console.error(e)
         });
     }
+  }
+
+  irParaNovo() {
+    this.router.navigate(['/professores/novo']);
+  }
+
+  editar(id: number) {
+    this.router.navigate(['/professores/editar', id]);
   }
 }

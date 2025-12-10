@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router'; // ActivatedRoute para pegar o ID da URL
-import { CursoService } from '../../services/curso.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CursoService, Curso } from '../../services/curso.service';
 
 @Component({
   selector: 'app-curso-edit',
@@ -11,118 +11,72 @@ import { CursoService } from '../../services/curso.service';
   template: `
     <div class="container">
       <h2>Editar Curso</h2>
+      
+      <label>Nome:</label>
+      <input [(ngModel)]="nomeCurso" type="text">
 
-      <div *ngIf="carregando" class="loading">Carregando dados do curso...</div>
+      <label>Descrição:</label>
+      <input [(ngModel)]="descricao" type="text">
 
-      <div *ngIf="!carregando">
-        <div class="form-group">
-          <label>ID:</label>
-          <input type="text" [value]="id" disabled style="background-color: #eee;">
-        </div>
+      <label>Mensalidade:</label>
+      <input [(ngModel)]="mensalidade" type="number">
 
-        <div class="form-group">
-          <label>Nome do Curso:</label>
-          <input type="text" [(ngModel)]="nomeCurso" placeholder="Ex: Engenharia">
-        </div>
+      <label>ID Departamento:</label>
+      <input [(ngModel)]="departamentoID" type="number">
 
-        <div class="form-group">
-          <label>ID do Departamento:</label>
-          <input type="number" [(ngModel)]="departamentoID" placeholder="Ex: 1">
-        </div>
-
-        <button (click)="atualizar()" [disabled]="salvando" class="btn-save">
-          {{ salvando ? 'Salvando...' : 'Atualizar Curso' }}
-        </button>
-        
-        <button (click)="cancelar()" class="btn-cancel">Cancelar</button>
-
-        <p *ngIf="mensagem" [class.erro]="!sucesso" [class.sucesso]="sucesso">
-          {{ mensagem }}
-        </p>
-      </div>
+      <button (click)="atualizar()">Atualizar</button>
+      <button (click)="cancelar()">Cancelar</button>
     </div>
   `,
-  styles: [`
-    .container { padding: 20px; max-width: 500px; font-family: Arial, sans-serif; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; }
-    input { width: 100%; padding: 8px; box-sizing: border-box; }
-    button { padding: 10px 15px; margin-right: 10px; border: none; cursor: pointer; border-radius: 4px; color: white; }
-    .btn-save { background-color: #ffc107; color: black; } /* Amarelo para editar */
-    .btn-save:hover { background-color: #e0a800; }
-    .btn-cancel { background-color: #6c757d; }
-    .erro { color: red; margin-top: 10px; }
-    .sucesso { color: green; margin-top: 10px; }
-    .loading { font-style: italic; color: #666; }
-  `]
+  styles: [`.container { padding: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 400px; }`]
 })
 export class CursoEditComponent implements OnInit {
-  private cursoService = inject(CursoService);
+  private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private route = inject(ActivatedRoute); // Injeção para ler a URL
+  private cursoService = inject(CursoService);
 
-  id: number = 0;
+  id = 0;
   nomeCurso = '';
-  departamentoID: number | null = null;
-  
-  carregando = true;
-  salvando = false;
-  mensagem = '';
-  sucesso = false;
+  descricao = '';
+  mensalidade = 0;
+  departamentoID = 0;
 
   ngOnInit() {
-    // 1. Pegar o ID que veio na URL (ex: /cursos/editar/5)
+    // Pega o ID da URL
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-
-    if (this.id) {
-      this.buscarCurso();
-    } else {
-      this.mensagem = 'ID inválido.';
-    }
+    if (this.id) this.carregarDados();
   }
 
-  buscarCurso() {
+  carregarDados() {
     this.cursoService.obterPorId(this.id).subscribe({
-      next: (curso) => {
-        // 2. Preencher o formulário com os dados que vieram do banco
+      next: (curso: Curso) => {
         this.nomeCurso = curso.nomeCurso;
-        this.departamentoID = curso.departamentoID;
-        this.carregando = false;
+        this.descricao = curso.descricao;
+        this.mensalidade = curso.mensalidade;
+        // Usa o operador '??' para garantir que não fique undefined
+        this.departamentoID = curso.departamentoID ?? 0;
       },
-      error: (e) => {
-        console.error(e);
-        this.mensagem = 'Erro ao carregar curso.';
-        this.carregando = false;
-      }
+      error: (e: any) => console.error(e)
     });
   }
 
   atualizar() {
-    if (!this.nomeCurso || !this.departamentoID) {
-      this.mensagem = 'Preencha todos os campos!';
-      return;
-    }
-
-    this.salvando = true;
-    this.mensagem = '';
-
-    const dadosAtualizados = {
+    const dadosAtualizados: Curso = {
+      cursoID: this.id, // Importante mandar o ID
       nomeCurso: this.nomeCurso,
+      descricao: this.descricao,
+      mensalidade: this.mensalidade,
       departamentoID: this.departamentoID
     };
 
     this.cursoService.atualizar(this.id, dadosAtualizados).subscribe({
       next: () => {
-        this.sucesso = true;
-        this.mensagem = 'Curso atualizado com sucesso!';
-        this.salvando = false;
-        setTimeout(() => this.router.navigate(['/cursos']), 1500);
+        alert('Curso atualizado!');
+        this.router.navigate(['/cursos']);
       },
-      error: (e) => {
-        this.salvando = false;
-        this.sucesso = false;
+      error: (e: any) => {
         console.error(e);
-        this.mensagem = 'Erro ao atualizar.';
+        alert('Erro ao atualizar.');
       }
     });
   }

@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 import { LoginRequest } from '../models/login-request';
 import { RegisterRequest } from '../models/register-request';
 
@@ -8,9 +9,12 @@ import { RegisterRequest } from '../models/register-request';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7174/api/Auth'; 
+  private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
+  private apiUrl = 'https://localhost:7174/api/Auth';
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private https: HttpClient) { }
 
   login(usuario: LoginRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, usuario).pipe(
@@ -29,24 +33,31 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/register`, usuario);
   }
 
-  logout(): void {
-    localStorage.clear(); // Limpa tudo (token e dados do usuário)
+  getToken(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+        return localStorage.getItem('token');
+    }
+    return null;
   }
 
   isLoggedIn(): boolean {
-    // Verifica se existe um token salvo
-    return !!localStorage.getItem('token');
-  }
-  
-  getToken(): string | null {
-    return localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+        return !!localStorage.getItem('token');
+    }
+    return false;
   }
 
-  deleteUser(id: number): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/${id}`);
+  logout(): void {
+    if (isPlatformBrowser(this.platformId)) {
+        localStorage.clear();
+    }
   }
 
   getUsers(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(`${this.apiUrl}/users`);
+  }
+  
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
