@@ -1,40 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { LoginRequest, LoginResponse } from '../models/auth.models';
+import { LoginRequest } from '../models/login-request';
+import { RegisterRequest } from '../models/register-request';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  
-  private apiUrl = 'https://localhost:7174/api/Auth';
-  private tokenKey = 'token_faculdade';
+  private apiUrl = 'https://localhost:7174/api/Auth'; 
 
   constructor(private http: HttpClient) { }
 
-  login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
+  login(usuario: LoginRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, usuario).pipe(
       tap(response => {
-        // Salva o token no LocalStorage do navegador
-        localStorage.setItem(this.tokenKey, response.token);
+        // Sucesso! O Backend devolveu um token. Vamos guardar.
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+          // Opcional: Salvar o usuário também se o backend devolver
+          // localStorage.setItem('user', JSON.stringify(response.user)); 
+        }
       })
     );
   }
 
-  logout(): void {
-    localStorage.removeItem(this.tokenKey);
+  register(usuario: RegisterRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, usuario);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  logout(): void {
+    localStorage.clear(); // Limpa tudo (token e dados do usuário)
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    // Verifica se existe um token salvo
+    return !!localStorage.getItem('token');
   }
-
-  register(dados: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, dados);
+  
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }

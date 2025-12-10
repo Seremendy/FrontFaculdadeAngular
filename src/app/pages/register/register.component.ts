@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { RegisterRequest } from '../../models/register-request';
 
 @Component({
   selector: 'app-register',
@@ -31,28 +32,32 @@ import { AuthService } from '../../services/auth.service';
         </select>
       </div>
 
-      <button (click)="fazerRegisto()" [disabled]="loading" class="btn-save">
+      <button (click)="fazerCadastro()" [disabled]="loading" class="btn-save">
         {{ loading ? 'A guardar...' : 'Criar Utilizador' }}
       </button>
       
       <button (click)="voltar()" class="btn-back">Voltar</button>
 
-      <p *ngIf="mensagem" [class.erro]="!sucesso" [class.sucesso]="sucesso">
-        {{ mensagem }}
-      </p>
+      @if (mensagem) {
+        <p [class.erro]="!sucesso" [class.sucesso]="sucesso">
+            {{ mensagem }}
+        </p>
+      }
     </div>
   `,
   styles: [`
-    .register-container { padding: 20px; max-width: 400px; margin: 50px auto; border: 1px solid #ddd; border-radius: 8px; font-family: Arial, sans-serif; }
+    .register-container { padding: 20px; max-width: 400px; margin: 50px auto; border: 1px solid #ddd; border-radius: 8px; font-family: Arial, sans-serif; background-color: white; }
     .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; }
-    input, select { width: 100%; padding: 8px; box-sizing: border-box; }
-    button { width: 100%; padding: 10px; margin-top: 10px; border: none; cursor: pointer; color: white; border-radius: 4px; }
-    .btn-save { background-color: #28a745; }
-    .btn-save:disabled { background-color: #94d3a2; }
-    .btn-back { background-color: #6c757d; }
-    .erro { color: red; margin-top: 10px; }
-    .sucesso { color: green; margin-top: 10px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+    input, select { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+    button { width: 100%; padding: 10px; margin-top: 10px; border: none; cursor: pointer; color: white; border-radius: 4px; font-size: 16px; }
+    .btn-save { background-color: #28a745; transition: 0.3s; }
+    .btn-save:hover:not(:disabled) { background-color: #218838; }
+    .btn-save:disabled { background-color: #94d3a2; cursor: not-allowed; }
+    .btn-back { background-color: #6c757d; margin-top: 5px; }
+    .btn-back:hover { background-color: #5a6268; }
+    .erro { color: #dc3545; margin-top: 10px; font-weight: bold; }
+    .sucesso { color: #28a745; margin-top: 10px; font-weight: bold; }
   `]
 })
 export class RegisterComponent {
@@ -61,38 +66,51 @@ export class RegisterComponent {
 
   login = '';
   senha = '';
-  role = 'Aluno'; // Valor padrão
+  role = 'Aluno';
   mensagem = '';
   sucesso = false;
   loading = false;
 
-  fazerRegisto() {
+  fazerCadastro() {
+    if (!this.login || !this.senha) {
+        this.mensagem = "Preencha todos os campos!";
+        this.sucesso = false;
+        return;
+    }
+
     this.loading = true;
     this.mensagem = '';
 
-    const dados = {
+    const dados: RegisterRequest = {
       login: this.login,
       senha: this.senha,
       role: this.role
     };
 
     this.authService.register(dados).subscribe({
-      next: () => {
+      next: (response) => {
         this.sucesso = true;
-        this.mensagem = 'Utilizador criado com sucesso!';
         this.loading = false;
+        this.mensagem = 'Usuário criado com sucesso!';
         this.limparFormulario();
+        
+        // Se quiser redirecionar automaticamente depois de um tempo:
+        // setTimeout(() => this.voltar(), 1500);
       },
-      error: (e) => {
+      error: (err) => {
+        console.dir(err);
         this.sucesso = false;
         this.loading = false;
-        console.error(e);
-        if (e.status === 401 || e.status === 403) {
-          this.mensagem = 'Erro: Apenas Administradores podem criar contas!';
-        } else if (e.status === 409) {
-          this.mensagem = 'Erro: Este login já existe.';
+
+        // Lógica robusta de erro que você implementou
+        if (err.error && err.error.errors) {
+          const chavesErros = Object.keys(err.error.errors);
+          if (chavesErros.length > 0) {
+             const primeiraChave = chavesErros[0];
+             this.mensagem = err.error.errors[primeiraChave][0];
+          }
         } else {
-          this.mensagem = 'Erro ao registar. Verifique os dados.';
+          this.mensagem = err.error?.message || 'Erro ao criar usuário.';
         }
       }
     });
@@ -105,6 +123,6 @@ export class RegisterComponent {
   }
 
   voltar() {
-    this.router.navigate(['/cursos']);
+    this.router.navigate(['/login']); 
   }
 }

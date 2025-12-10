@@ -1,83 +1,48 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router'; // Importante para o router-outlet e links
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterOutlet, RouterLink], // RouterLink permite navegar sem recarregar
   template: `
-    <div class="app-wrapper">
-      <nav class="sidebar">
-        <div class="logo">
-          <h3>Gestão Univ.</h3>
-        </div>
+    <div class="layout-wrapper">
+      <aside class="sidebar">
+        <h2>Universidade</h2>
+        <nav>
+          <ul>
+            <li><a routerLink="/cursos" routerLinkActive="ativo">🎓 Cursos</a></li>
+            <li><a routerLink="/alunos" routerLinkActive="ativo">👨‍🎓 Alunos</a></li>
+            <li><a routerLink="/professores" routerLinkActive="ativo">👨‍🏫 Professores</a></li>
+          </ul>
+        </nav>
         
-        <ul class="menu-list">
-          <li><a routerLink="/cursos" routerLinkActive="active">📚 Cursos</a></li>
-          <li><a style="color:gray; cursor:not-allowed">🎓 Alunos (Em breve)</a></li>
-          <li><a style="color:gray; cursor:not-allowed">👨‍🏫 Professores (Em breve)</a></li>
-          <li><a style="color:gray; cursor:not-allowed">📅 Turmas (Em breve)</a></li>
-        </ul>
-
-        <div class="logout-section">
-          <button (click)="sair()" class="btn-logout">Sair</button>
+        <div class="logout-area">
+          <button (click)="sair()">🚪 Sair</button>
         </div>
-      </nav>
+      </aside>
 
-      <main class="content-area">
+      <main class="content">
         <router-outlet></router-outlet>
       </main>
     </div>
   `,
   styles: [`
-    .app-wrapper { display: flex; height: 100vh; font-family: Arial, sans-serif; }
+    .layout-wrapper { display: flex; height: 100vh; font-family: sans-serif; }
     
-    /* Estilos da Sidebar */
-    .sidebar { 
-      width: 250px; 
-      background-color: #2c3e50; 
-      color: white; 
-      display: flex; 
-      flex-direction: column; 
-      padding: 20px;
-    }
-    .logo h3 { margin-top: 0; border-bottom: 1px solid #34495e; padding-bottom: 20px; }
+    .sidebar { width: 250px; background-color: #2c3e50; color: white; display: flex; flex-direction: column; padding: 20px; }
+    .sidebar h2 { margin-bottom: 30px; text-align: center; }
+    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar li { margin-bottom: 15px; }
+    .sidebar a { color: #bdc3c7; text-decoration: none; font-size: 18px; display: block; padding: 10px; border-radius: 4px; transition: 0.3s; }
+    .sidebar a:hover, .sidebar a.ativo { background-color: #34495e; color: white; }
     
-    .menu-list { list-style: none; padding: 0; margin-top: 20px; flex-grow: 1; }
-    .menu-list li { margin-bottom: 15px; }
-    .menu-list a { 
-      text-decoration: none; 
-      color: #ecf0f1; 
-      font-size: 16px; 
-      display: block; 
-      padding: 10px; 
-      border-radius: 4px; 
-      transition: background 0.3s;
-    }
-    .menu-list a:hover:not([style*="not-allowed"]) { background-color: #34495e; }
-    .menu-list a.active { background-color: #3498db; }
+    .logout-area { margin-top: auto; }
+    .logout-area button { width: 100%; padding: 10px; background-color: #c0392b; color: white; border: none; cursor: pointer; border-radius: 4px; }
 
-    /* Botão de Sair */
-    .btn-logout { 
-      width: 100%; 
-      padding: 10px; 
-      background-color: #e74c3c; 
-      color: white; 
-      border: none; 
-      cursor: pointer; 
-      border-radius: 4px; 
-    }
-    .btn-logout:hover { background-color: #c0392b; }
-
-    /* Área de Conteúdo */
-    .content-area { 
-      flex-grow: 1; 
-      padding: 30px; 
-      background-color: #f9f9f9; 
-      overflow-y: auto; 
-    }
+    .content { flex: 1; padding: 40px; background-color: #ecf0f1; overflow-y: auto; }
   `]
 })
 export class MainLayoutComponent {
