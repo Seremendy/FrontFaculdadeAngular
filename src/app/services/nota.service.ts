@@ -17,7 +17,7 @@ export class NotaService {
   private http = inject(HttpClient);
   
   // URL da sua API C# (confira se a porta 5274 está correta no seu launchSettings.json)
-  private apiUrl = 'http://localhost:5274/api/Notas'; 
+  private apiUrl = 'https://localhost:7174/api/Notas'; 
 
   constructor() { }
 

@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; // <--- 1. Importe ChangeDetectorRef
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NotaService, Nota } from '../../services/nota.service'; // Importe a interface Nota
+import { NotaService, Nota } from '../../services/nota.service';
 
 @Component({
   selector: 'app-nota-edit',
@@ -12,57 +12,59 @@ import { NotaService, Nota } from '../../services/nota.service'; // Importe a in
     <div class="container">
       <h2>Editar Nota</h2>
       
-      <div *ngIf="nota">
-        <label>Aluno ID: {{ nota.alunoID }} (Somente Leitura)</label> <br>
-        <label>Disciplina ID: {{ nota.disciplinaID }} (Somente Leitura)</label> <br><br>
+      @if (nota) {
+        <div class="form-area">
+          <label><strong>Aluno ID:</strong> {{ nota.alunoID }} (Somente Leitura)</label> <br>
+          <label><strong>Disciplina ID:</strong> {{ nota.disciplinaID }} (Somente Leitura)</label> <br><br>
 
-        <label>Valor da Nota:</label>
-        <input type="number" [(ngModel)]="nota.notaValor" placeholder="0.0 a 10.0">
-        
-        <br><br>
-        <button (click)="salvar()">Salvar Alterações</button>
-        <button (click)="cancelar()">Cancelar</button>
-      </div>
+          <label>Valor da Nota:</label>
+          <input type="number" [(ngModel)]="nota.notaValor" placeholder="0.0 a 10.0" step="0.1">
+          
+          <br><br>
+          <button class="btn-save" (click)="salvar()">Salvar Alterações</button>
+          <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+        </div>
+      } @else {
+        <p class="loading">Carregando dados da nota...</p>
+      }
     </div>
   `,
   styles: [`
-    .container {
-      padding: 20px;
-      font-family: sans-serif;
-    }
-    input {
-      padding: 5px;
-      margin-left: 10px;
-    }
-    button {
-      margin-right: 10px;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-  `] 
-  // ^^^ O erro de CSS geralmente é aqui! Verifique se fechou colchetes e crases corretamente.
+    .container { padding: 20px; font-family: sans-serif; max-width: 500px; margin: 0 auto; }
+    input { padding: 8px; margin-left: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    button { margin-right: 10px; padding: 8px 16px; cursor: pointer; border: none; border-radius: 4px; color: white; }
+    .btn-save { background-color: #28a745; }
+    .btn-cancel { background-color: #dc3545; }
+    .loading { color: #666; font-style: italic; font-weight: bold; }
+  `]
 })
 export class NotaEditComponent implements OnInit {
   private notaService = inject(NotaService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  
+  // 2. Injete o detector de mudanças
+  private cd = inject(ChangeDetectorRef); 
 
   nota: Nota | null = null;
   id: number = 0;
 
   ngOnInit() {
-    // Pega o ID da URL
     this.id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (this.id) {
-      // Corrigindo o erro de tipagem "Parameter 'nota' implicitly has an 'any' type"
       this.notaService.getById(this.id).subscribe({
-        next: (dados: Nota) => {  // <--- Adicione o tipo ': Nota' aqui
-          this.nota = dados;
+        next: (dados: Nota) => {
+          console.log('Dados recebidos e atribuindo à variável:', dados);
+          
+          this.nota = dados; // Atualiza a variável
+          
+          // 3. O PULO DO GATO: Força o Angular a atualizar a tela AGORA
+          this.cd.detectChanges(); 
         },
         error: (err: any) => {
-          console.error('Erro ao buscar nota', err);
-          alert('Nota não encontrada!');
+          console.error(err);
+          alert('Erro ao buscar.');
           this.router.navigate(['/notas']);
         }
       });
@@ -73,13 +75,10 @@ export class NotaEditComponent implements OnInit {
     if (this.nota && this.id) {
       this.notaService.update(this.id, this.nota).subscribe({
         next: () => {
-          alert('Nota atualizada com sucesso!');
+          alert('Sucesso!');
           this.router.navigate(['/notas']);
         },
-        error: (err: any) => {
-          console.error(err);
-          alert('Erro ao atualizar nota.');
-        }
+        error: () => alert('Erro ao salvar.')
       });
     }
   }
