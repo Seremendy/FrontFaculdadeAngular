@@ -13,7 +13,7 @@ import { DisciplinaService } from '../../services/disciplina.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './nota-form.component.html',
-  // styleUrl: './nota-form.component.css' // Use o global
+  //styleUrl: './nota-form.component.css'
 })
 export class NotaFormComponent implements OnInit {
   private notaService = inject(NotaService);

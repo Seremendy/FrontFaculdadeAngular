@@ -1,60 +1,60 @@
 <div class="page-container">
-  <header>
-    <h2>📝 Matrículas Realizadas</h2>
-    <button class="btn-novo" (click)="irParaNovo()">+ Nova Matrícula</button>
-  </header>
-
-  @if (errorMessage) {
-    <div class="alert-error">{{ errorMessage }}</div>
-  }
-
-  @if (loading) {
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>Carregando registros...</p>
+  <div class="page-header">
+    <div>
+      <p class="overline">Gestão de Matrículas</p>
+      <h1>Matrículas</h1>
     </div>
-  } @else {
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Aluno</th>
-            <th>Curso</th>
-            <th>Data</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (mat of matriculas; track mat.matriculaID) {
-            <tr>
-              <td>#{{ mat.matriculaID }}</td>
-              
-              <td><strong>{{ mat.alunoNome }}</strong></td>
-              <td>{{ mat.nomeCurso }}</td>
-              
-              <td>{{ mat.dataMatricula | date:'dd/MM/yyyy' }}</td>
-              
-              <td>
-                <span [style.color]="mat.matriculaAtiva ? 'green' : 'red'" style="font-weight: bold;">
-                  {{ mat.matriculaAtiva ? 'Ativa' : 'Cancelada' }}
-                </span>
-              </td>
-
-              <td>
-                <button class="btn-excluir" (click)="deletar(mat.matriculaID)">
-                  🗑️
-                </button>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="6" class="empty">Nenhuma matrícula encontrada.</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <div class="page-actions">
+      <button class="btn" (click)="irParaNovo()">
+        <span class="btn-label">Nova Matrícula</span>
+        <span class="btn-icon">+</span>
+      </button>
     </div>
-  }
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <div *ngIf="loading" class="card">
+    <div class="card-body text-muted">Carregando registros...</div>
+  </div>
+
+  <div *ngIf="!loading && matriculas.length === 0" class="card">
+    <div class="card-body text-muted">Nenhuma matrícula encontrada.</div>
+  </div>
+
+  <div *ngIf="!loading && matriculas.length > 0" class="card table-container">
+    <div class="table-actions">
+      <div class="table-info">Total: {{ matriculas.length }}</div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Aluno</th>
+          <th>Curso</th>
+          <th>Data</th>
+          <th>Status</th>
+          <th class="text-right">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mat of matriculas">
+          <td>#{{ mat.matriculaID }}</td>
+          <td><strong>{{ mat.alunoNome }}</strong></td>
+          <td>{{ mat.nomeCurso }}</td>
+          <td>{{ mat.dataMatricula | date:'dd/MM/yyyy' }}</td>
+          <td>
+            <span class="badge" [class.badge-success]="mat.matriculaAtiva" [class.badge-danger]="!mat.matriculaAtiva">
+              {{ mat.matriculaAtiva ? 'Ativa' : 'Cancelada' }}
+            </span>
+          </td>
+          <td class="text-right">
+            <button class="btn btn-link text-danger" (click)="deletar(mat.matriculaID)">
+              <span class="btn-label">Excluir</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

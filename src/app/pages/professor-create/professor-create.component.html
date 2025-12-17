@@ -1,43 +1,68 @@
-<div class="form-container">
-  <h2>👨‍🏫 Novo Professor</h2>
-  
-  @if (errorMessage) {
-    <div class="alert error">{{ errorMessage }}</div>
-  }
+<div class="page-container">
+  <div class="form-container">
+    <h2>👨‍🏫 Novo Professor</h2>
 
-  <div class="form-content">
-    
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
     <div class="form-group">
-      <label>Nome Completo *</label>
-      <input 
-        [(ngModel)]="professor.professorNome" 
-        type="text" 
+      <label class="form-label required">Nome Completo</label>
+      <input
+        class="form-control"
+        [(ngModel)]="professor.professorNome"
+        type="text"
         placeholder="Ex: Dr. Roberto"
         [disabled]="isLoading">
     </div>
 
     <div class="form-group">
-      <label>Formação (Titulação)</label>
-      <input 
-        [(ngModel)]="professor.formacao" 
-        type="text" 
+      <label class="form-label">Formação (Titulação)</label>
+      <input
+        class="form-control"
+        [(ngModel)]="professor.formacao"
+        type="text"
         placeholder="Ex: Doutor em Física"
         [disabled]="isLoading">
     </div>
 
-    <div class="actions">
-      <button class="btn-salvar" (click)="salvar()" [disabled]="isLoading">
-        @if (isLoading) {
-          <span>Salvando...</span>
-        } @else {
-          <span>Salvar Professor</span>
-        }
-      </button>
-      
-      <button class="btn-cancelar" (click)="cancelar()" [disabled]="isLoading">
-        Cancelar
-      </button>
+    <div class="form-group">
+      <label class="form-label required">CPF</label>
+      <input
+        class="form-control"
+        [(ngModel)]="professor.cpf"
+        type="text"
+        placeholder="000.000.000-00"
+        maxlength="14"
+        [disabled]="isLoading">
     </div>
 
+    <div class="form-group">
+      <label class="form-label">RG</label>
+      <input
+        class="form-control"
+        [(ngModel)]="professor.rg"
+        type="text"
+        placeholder="RG"
+        [disabled]="isLoading">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Data de Nascimento</label>
+      <input
+        class="form-control"
+        [(ngModel)]="professor.dataNascimento"
+        type="date"
+        [disabled]="isLoading">
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-success" (click)="salvar()" [disabled]="isLoading">
+        @if (isLoading) { ⏳ Salvando... } @else { 💾 Salvar Professor }
+      </button>
+      <button class="btn btn-outline btn-outline-primary" type="button" (click)="cancelar()" [disabled]="isLoading">
+        ✕ Cancelar
+      </button>
+    </div>
   </div>
 </div>

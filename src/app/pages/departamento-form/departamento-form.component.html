@@ -1,28 +1,30 @@
-<div class="form-container">
-  <h2>{{ isEditMode ? 'Editar' : 'Novo' }} Departamento</h2>
+<div class="page-container">
+  <div class="form-container">
+    <h2>{{ isEditMode ? '✏️ Editar' : '➕ Novo' }} Departamento</h2>
 
-  <form (ngSubmit)="salvar()">
-    
-    <div class="form-group" *ngIf="isEditMode">
-      <label>ID</label>
-      <input type="text" [value]="departamento.departamentoID" disabled class="form-control">
-    </div>
+    <form (ngSubmit)="salvar()">
+      
+      <div class="form-group" *ngIf="isEditMode">
+        <label class="form-label">ID</label>
+        <input type="text" [value]="departamento.departamentoID" disabled class="form-control">
+      </div>
 
-    <div class="form-group">
-      <label>Nome do Departamento</label>
-      <input 
-        type="text" 
-        [(ngModel)]="departamento.departamentoNome" 
-        name="departamentoNome" 
-        required 
-        class="form-control"
-        placeholder="Ex: Ciências da Computação"
-      >
-    </div>
+      <div class="form-group">
+        <label class="form-label required">Nome do Departamento</label>
+        <input 
+          type="text" 
+          [(ngModel)]="departamento.departamentoNome" 
+          name="departamentoNome" 
+          required 
+          class="form-control"
+          placeholder="Ex: Ciências da Computação"
+        >
+      </div>
 
-    <div class="actions">
-      <button type="submit" class="btn btn-primary">Salvar</button>
-      <a routerLink="/departamentos" class="btn btn-secondary">Cancelar</a>
-    </div>
-  </form>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">💾 {{ isEditMode ? 'Atualizar' : 'Salvar' }}</button>
+        <a routerLink="/departamentos" class="btn btn-outline btn-outline-secondary">✕ Cancelar</a>
+      </div>
+    </form>
+  </div>
 </div>

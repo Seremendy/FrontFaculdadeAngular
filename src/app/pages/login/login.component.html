@@ -1,51 +1,55 @@
-<div class="login-wrapper">
-  <div class="login-card">
-    <h2>Acesso Universidade</h2>
+<div class="auth-wrapper">
+  <div class="card auth-card">
+    <div class="card-body">
+      <p class="overline">Portal Acadêmico</p>
+      <h1>Entrar</h1>
+      <p class="text-muted">Use suas credenciais para acessar o sistema.</p>
 
-    <form (ngSubmit)="fazerLogin()">
-      
-      <div class="form-group">
-        <label for="login">Login</label>
-        <input 
-          id="login" 
-          name="login" 
-          type="text" 
-          placeholder="Digite seu login" 
-          [(ngModel)]="loginData.login"
-          autocomplete="username"
-          required
-          [disabled]="carregando">
-      </div>
+      <form (ngSubmit)="fazerLogin()">
+        <div class="form-group">
+          <label for="login" class="form-label">Login</label>
+          <input
+            id="login"
+            name="login"
+            class="form-control"
+            type="text"
+            placeholder="Digite seu login"
+            [(ngModel)]="loginData.login"
+            autocomplete="username"
+            required
+            [disabled]="carregando">
+        </div>
 
-      <div class="form-group">
-        <label for="senha">Senha</label>
-        <input 
-          id="senha" 
-          name="senha" 
-          type="password" 
-          placeholder="Digite sua senha" 
-          [(ngModel)]="loginData.senha"
-          autocomplete="current-password"
-          required
-          [disabled]="carregando">
-      </div>
+        <div class="form-group">
+          <label for="senha" class="form-label">Senha</label>
+          <input
+            id="senha"
+            name="senha"
+            class="form-control"
+            type="password"
+            placeholder="Digite sua senha"
+            [(ngModel)]="loginData.senha"
+            autocomplete="current-password"
+            required
+            [disabled]="carregando">
+        </div>
 
-      <button type="submit" [disabled]="carregando">
-        @if (carregando) {
-          <span>Validando...</span>
-        } @else {
-          <span>Entrar</span>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="carregando">
+            @if (carregando) {
+              <span>Validando...</span>
+            } @else {
+              <span>Entrar</span>
+            }
+          </button>
+        </div>
+
+        @if (mensagem) {
+          <div class="alert" [ngClass]="sucesso ? 'alert-success' : 'alert-danger'" role="alert">
+            {{ mensagem }}
+          </div>
         }
-      </button>
-
-      @if (mensagem) {
-        <p class="feedback-msg" 
-           [class.erro]="!sucesso" 
-           [class.sucesso]="sucesso"
-           role="alert">
-          {{ mensagem }}
-        </p>
-      }
-    </form>
+      </form>
+    </div>
   </div>
 </div>

@@ -1,70 +1,78 @@
-<div class="form-container">
-  <h2>📝 Nova Matrícula</h2>
-  <p class="subtitle">Associe um aluno a um curso</p>
-
-  @if (errorMessage) {
-    <div class="alert error">{{ errorMessage }}</div>
-  }
-
-  <form (ngSubmit)="salvar()">
-    
-    <div class="form-group">
-      <label for="aluno">Aluno *</label>
-      <select 
-        id="aluno" 
-        [(ngModel)]="selectedAlunoID" 
-        name="aluno" 
-        [disabled]="isLoading"
-        required>
-        <option [ngValue]="0" disabled selected>-- Selecione o Aluno --</option>
-        @for (aluno of alunos; track aluno.alunoID) {
-          <option [ngValue]="aluno.alunoID">
-            {{ aluno.alunoNome }} (CPF: {{ aluno.cpf }})
-          </option>
-        }
-      </select>
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <p class="overline">Gestão de Matrículas</p>
+      <h1>Nova Matrícula</h1>
+      <p class="text-muted">Associe um aluno a um curso</p>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="curso">Curso *</label>
-      <select 
-        id="curso" 
-        [(ngModel)]="selectedCursoID" 
-        name="curso" 
-        [disabled]="isLoading"
-        required>
-        <option [ngValue]="0" disabled selected>-- Selecione o Curso --</option>
-        @for (curso of cursos; track curso.cursoID) {
-          <option [ngValue]="curso.cursoID">
-          </option>
-        }
-      </select>
-    </div>
+  <div class="card form-container">
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
 
-    <div class="form-group">
-      <label for="data">Data da Matrícula</label>
-      <input 
-        id="data" 
-        type="date" 
-        [(ngModel)]="dataMatricula" 
-        name="data" 
-        [disabled]="isLoading"
-        required>
-    </div>
+    <form (ngSubmit)="salvar()">
+      <div class="form-group">
+        <label for="aluno" class="form-label">Aluno *</label>
+        <select
+          id="aluno"
+          class="form-control"
+          [(ngModel)]="selectedAlunoID"
+          name="aluno"
+          [disabled]="isLoading"
+          required>
+          <option [ngValue]="0" disabled>-- Selecione o Aluno --</option>
+          @for (aluno of alunos; track aluno.alunoID) {
+            <option [ngValue]="aluno.alunoID">
+              {{ aluno.alunoNome }} (CPF: {{ aluno.cpf }})
+            </option>
+          }
+        </select>
+      </div>
 
-    <div class="actions">
-      <button type="submit" class="btn-salvar" [disabled]="isLoading">
-        @if (isLoading) {
-          <span>Processando...</span>
-        } @else {
-          <span>Confirmar Matrícula</span>
-        }
-      </button>
-      
-      <button type="button" class="btn-cancelar" (click)="cancelar()">
-        Cancelar
-      </button>
-    </div>
+      <div class="form-group">
+        <label for="curso" class="form-label">Curso *</label>
+        <select
+          id="curso"
+          class="form-control"
+          [(ngModel)]="selectedCursoID"
+          name="curso"
+          [disabled]="isLoading"
+          required>
+          <option [ngValue]="0" disabled>-- Selecione o Curso --</option>
+          @for (curso of cursos; track curso.cursoID) {
+            <option [ngValue]="curso.cursoID">
+              {{ curso.nomeCurso }}
+            </option>
+          }
+        </select>
+      </div>
 
-  </form>
+      <div class="form-group">
+        <label for="data" class="form-label">Data da Matrícula</label>
+        <input
+          id="data"
+          class="form-control"
+          type="date"
+          [(ngModel)]="dataMatricula"
+          name="data"
+          [disabled]="isLoading"
+          required>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success" [disabled]="isLoading">
+          @if (isLoading) {
+            <span>Processando...</span>
+          } @else {
+            <span>Confirmar Matrícula</span>
+          }
+        </button>
+        <button type="button" class="btn btn-outline btn-outline-secondary" (click)="cancelar()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

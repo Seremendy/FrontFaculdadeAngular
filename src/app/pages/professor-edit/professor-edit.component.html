@@ -1,45 +1,70 @@
-<div class="form-container">
-  <h2>✏️ Editar Professor</h2>
+<div class="page-container">
+  <div class="form-container">
+    <h2>✏️ Editar Professor</h2>
 
-  @if (errorMessage) {
-    <div class="alert error">{{ errorMessage }}</div>
-  }
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
 
-  @if (isLoading && !professor) {
-    <div class="loading-state">
-      <p>Buscando dados do professor...</p>
-    </div>
-  }
+    @if (isLoading && !professor) {
+      <div class="loading-state loading">Buscando dados do professor...</div>
+    }
 
-  @if (professor) {
-    <div class="form-content">
-      
+    @if (professor) {
       <div class="form-group">
-        <label>Nome Completo:</label>
-        <input 
-          [(ngModel)]="professor.professorNome" 
+        <label class="form-label required">Nome Completo</label>
+        <input
+          class="form-control"
+          [(ngModel)]="professor.professorNome"
           type="text"
           [disabled]="isLoading">
       </div>
 
       <div class="form-group">
-        <label>Formação (Titulação):</label>
-        <input 
-          [(ngModel)]="professor.formacao" 
+        <label class="form-label">Formação (Titulação)</label>
+        <input
+          class="form-control"
+          [(ngModel)]="professor.formacao"
           type="text"
           [disabled]="isLoading">
       </div>
 
-      <div class="actions">
-        <button class="btn-salvar" (click)="atualizar()" [disabled]="isLoading">
-          {{ isLoading ? 'Salvando...' : 'Atualizar' }}
-        </button>
-        
-        <button class="btn-cancelar" (click)="cancelar()" [disabled]="isLoading">
-          Cancelar
-        </button>
+      <div class="form-group">
+        <label class="form-label required">CPF</label>
+        <input
+          class="form-control"
+          [(ngModel)]="professor.cpf"
+          type="text"
+          maxlength="14"
+          [disabled]="isLoading">
       </div>
 
-    </div>
-  }
+      <div class="form-group">
+        <label class="form-label">RG</label>
+        <input
+          class="form-control"
+          [(ngModel)]="professor.rg"
+          type="text"
+          [disabled]="isLoading">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Data de Nascimento</label>
+        <input
+          class="form-control"
+          [(ngModel)]="professor.dataNascimento"
+          type="date"
+          [disabled]="isLoading">
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-success" (click)="atualizar()" [disabled]="isLoading">
+          {{ isLoading ? '⏳ Salvando...' : '💾 Atualizar' }}
+        </button>
+        <button class="btn btn-outline btn-outline-primary" type="button" (click)="cancelar()" [disabled]="isLoading">
+          ✕ Cancelar
+        </button>
+      </div>
+    }
+  </div>
 </div>

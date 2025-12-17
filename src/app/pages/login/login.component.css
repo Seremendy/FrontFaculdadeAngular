@@ -1,97 +1,14 @@
-/* Container que centraliza na tela inteira */
-.login-wrapper {
+/* Layout mínimo para centralizar o cartão de login usando o design system global */
+.auth-wrapper {
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Ocupa 100% da altura da tela */
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Gradiente Azul */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #f5f7fb 0%, #e9edf7 100%);
 }
 
-/* O cartão branco */
-.login-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+.auth-card {
     width: 100%;
-    max-width: 380px;
-    text-align: center;
-}
-
-h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-    text-align: left;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 1rem;
-    box-sizing: border-box; /* Garante que padding não quebre o layout */
-    transition: border 0.3s;
-}
-
-input:focus {
-    outline: none;
-    border-color: #2a5298;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #2a5298;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    margin-top: 1rem;
-    transition: background 0.3s;
-}
-
-button:hover:not(:disabled) {
-    background-color: #162e58;
-}
-
-button:disabled {
-    background-color: #9caab9;
-    cursor: wait;
-}
-
-.feedback-msg {
-    margin-top: 15px;
-    font-size: 0.9rem;
-    padding: 10px;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: 500;
-}
-
-.erro {
-    background-color: #ffebee;
-    color: #c62828;
-    border: 1px solid #ffcdd2;
-}
-
-.sucesso {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-    border: 1px solid #c8e6c9;
+    max-width: 420px;
 }

@@ -1,12 +1,20 @@
- <div class="container">
-      <h2>Editar Curso</h2>
-      
-      <label>Nome:</label>
-      <input [(ngModel)]="nomeCurso" type="text">
+<div class="page-container">
+      <div class="form-container">
+            <h2>✏️ Editar Curso</h2>
 
-      <label>ID Departamento:</label>
-      <input [(ngModel)]="departamentoID" type="number">
+            <div class="form-group">
+                  <label class="form-label required">Nome do Curso</label>
+                  <input class="form-control" [(ngModel)]="nomeCurso" type="text">
+            </div>
 
-      <button (click)="atualizar()">Atualizar</button>
-      <button (click)="cancelar()">Cancelar</button>
+            <div class="form-group">
+                  <label class="form-label required">ID Departamento</label>
+                  <input class="form-control" [(ngModel)]="departamentoID" type="number">
+            </div>
+
+            <div class="form-actions">
+                  <button class="btn btn-success" (click)="atualizar()">💾 Atualizar</button>
+                  <button class="btn btn-outline btn-outline-primary" type="button" (click)="cancelar()">✕ Cancelar</button>
+            </div>
+      </div>
 </div>

@@ -37,6 +37,11 @@ export class ProfessorCreateComponent {
       return;
     }
 
+    if (!this.professor.cpf) {
+      this.errorMessage = 'O CPF é obrigatório!';
+      return;
+    }
+
     this.isLoading = true;
     this.errorMessage = '';
 

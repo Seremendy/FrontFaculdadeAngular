@@ -1,8 +1,16 @@
 <div class="page-container">
-  <header class="page-header">
-    <h2>🔐 Usuários do Sistema</h2>
-    <a routerLink="/register" class="btn btn-success">+ Novo Usuário</a>
-  </header>
+  <div class="page-header">
+    <div>
+      <p class="overline">Administração</p>
+      <h1>Usuários do Sistema</h1>
+    </div>
+    <div class="page-actions">
+      <a routerLink="/register" class="btn">
+        <span class="btn-label">Novo Usuário</span>
+        <span class="btn-icon">+</span>
+      </a>
+    </div>
+  </div>
 
   <div class="card">
     <table class="table-full">
@@ -26,8 +34,10 @@
                 {{ user.role }}
               </span>
             </td>
-            <td>
-              <button (click)="deletarUsuario(user.usuarioID)" class="btn btn-sm btn-danger">🗑️ Excluir</button>
+            <td class="text-right">
+              <button (click)="deletarUsuario(user.usuarioID)" class="btn btn-link text-danger">
+                <span class="btn-label">Excluir</span>
+              </button>
             </td>
           </tr>
         } @empty {

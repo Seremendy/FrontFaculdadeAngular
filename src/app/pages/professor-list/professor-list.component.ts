@@ -38,23 +38,29 @@ export class ProfessorListComponent implements OnInit {
     });
   }
 
-  deletar(id: number) {
-    if(confirm('Tem certeza que deseja remover este professor?')) {
-        this.service.delete(id).subscribe({
-            next: () => this.carregar(),
-            error: (e: any) => {
-                console.error(e);
-                alert('Erro ao excluir professor. Verifique se ele possui vínculos (turmas/notas).');
-            }
-        });
-    }
-  }
-
-  irParaNovo() {
+  novoProfessor() {
     this.router.navigate(['/professores/novo']);
   }
 
-  editar(id: number) {
+  editarProfessor(professor: Professor) {
+    const id = professor.professorID;
+    if (id === undefined || id === null) { return; }
     this.router.navigate(['/professores/editar', id]);
+  }
+
+  confirmarExcluir(professor: Professor) {
+    const id = professor.professorID;
+    if (id === undefined || id === null) { return; }
+
+    const nome = professor.professorNome || 'este professor';
+    if (confirm(`Tem certeza que deseja remover ${nome}?`)) {
+      this.service.delete(id).subscribe({
+        next: () => this.carregar(),
+        error: (e: any) => {
+          console.error(e);
+          alert('Erro ao excluir professor. Verifique se ele possui vínculos (turmas/notas).');
+        }
+      });
+    }
   }
 }

@@ -29,13 +29,12 @@ export class LoginComponent {
 
     this.authService.login(this.loginData).subscribe({
       next: (response) => {
+        this.carregando = false;
         this.sucesso = true;
         this.mensagem = 'Login realizado com sucesso!';
         
-        // Pequeno delay para usuário ver a mensagem
-        setTimeout(() => {
-          this.router.navigate(['/']); 
-        }, 1000);
+        // Redireciona imediatamente após salvar o token
+        this.router.navigate(['/alunos']);
       },
       error: (err) => {
         this.carregando = false;

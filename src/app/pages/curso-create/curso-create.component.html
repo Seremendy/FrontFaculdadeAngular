@@ -1,78 +1,77 @@
-<div class="form-container">
-  <h2>📚 Novo Curso</h2>
-  
-  @if (errorMessage) {
-    <div class="alert error">{{ errorMessage }}</div>
-  }
+<div class="page-container">
+  <div class="form-container">
+    <h2>📚 Novo Curso</h2>
 
-  <form (ngSubmit)="salvar()">
-    
-    <div class="form-group">
-      <label>Nome do Curso *</label>
-      <input 
-        [(ngModel)]="curso.nomeCurso" 
-        name="nome" 
-        type="text" 
-        placeholder="Ex: Engenharia de Software" 
-        required
-        [disabled]="isLoading">
-    </div>
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
 
-    <div class="row">
+    <form (ngSubmit)="salvar()">
       <div class="form-group">
-        <label>ID Departamento *</label>
-        <input 
-          [(ngModel)]="curso.departamentoID" 
-          name="departamentoID" 
-          type="number"
-          placeholder="Consulte a tabela abaixo 👇"
+        <label class="form-label required">Nome do Curso</label>
+        <input
+          class="form-control"
+          [(ngModel)]="curso.nomeCurso"
+          name="nome"
+          type="text"
+          placeholder="Ex: Engenharia de Software"
           required
           [disabled]="isLoading">
       </div>
-    </div>
 
-    <div class="actions">
-      <button type="submit" class="btn-salvar" [disabled]="isLoading">
-        @if (isLoading) {
-          <span>Salvando...</span>
-        } @else {
-          <span>Salvar Curso</span>
-        }
-      </button>
-      
-      <button type="button" class="btn-cancelar" (click)="cancelar()" [disabled]="isLoading">
-        Cancelar
-      </button>
-    </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label required">ID Departamento</label>
+          <input
+            class="form-control"
+            [(ngModel)]="curso.departamentoID"
+            name="departamentoID"
+            type="number"
+            placeholder="Consulte a tabela abaixo"
+            required
+            [disabled]="isLoading">
+        </div>
+      </div>
 
-  </form>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success" [disabled]="isLoading">
+          @if (isLoading) { ⏳ Salvando... } @else { 💾 Salvar Curso }
+        </button>
+        <button type="button" class="btn btn-outline btn-outline-primary" (click)="cancelar()" [disabled]="isLoading">
+          ✕ Cancelar
+        </button>
+      </div>
+    </form>
 
-  <hr class="separator">
-  
-  <div class="help-section">
-    <h3>🔍 Departamentos Disponíveis</h3>
-    <p>Copie o <strong>ID</strong> da tabela abaixo e cole no campo acima.</p>
-    
-    <div class="table-mini-container">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (dept of departamentos; track dept.departamentoID) {
+    <hr style="margin: var(--spacing-xl) 0; border: 0; border-top: 1px solid var(--color-border);" />
+
+    <div class="card">
+      <div class="page-header" style="margin-bottom: var(--spacing-md);">
+        <h3>🔍 Departamentos Disponíveis</h3>
+      </div>
+      <p class="text-muted">Copie o ID da tabela abaixo e cole no campo acima.</p>
+
+      <div class="table-container" style="margin-top: var(--spacing-md);">
+        <table class="table">
+          <thead>
             <tr>
-              <td><strong>{{ dept.departamentoID }}</strong></td>
-              <td>{{ dept.departamentoNome }}</td>
+              <th>ID</th>
+              <th>Nome</th>
             </tr>
-          } @empty {
-            <tr><td colspan="3">Nenhum departamento encontrado. Cadastre um no banco!</td></tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (dept of departamentos; track dept.departamentoID) {
+              <tr>
+                <td><strong>{{ dept.departamentoID }}</strong></td>
+                <td>{{ dept.departamentoNome }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="3" class="empty-state">Nenhum departamento encontrado. Cadastre um no banco!</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
 
+  </div>
 </div>

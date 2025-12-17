@@ -1,52 +1,64 @@
-/* You can add global styles to this file, and also import other style files *//* src/styles.css */
+/* ============================================================================
+   ESTILOS GLOBAIS - Faculdade Angular
+   ============================================================================
+   Importa variáveis centralizadas e define estilos base reutilizáveis
+   ============================================================================ */
 
-/* 1. VARIÁVEIS GLOBAIS (O Painel de Controle) */
-:root {
-  /* Cores */
-  --primary: #3498db;       /* Azul Principal */
-  --primary-hover: #2980b9;
-  --success: #2ecc71;       /* Verde */
-  --success-hover: #27ae60;
-  --danger: #e74c3c;        /* Vermelho */
-  --danger-hover: #c0392b;
-  --warning: #f1c40f;       /* Amarelo */
-  --text-dark: #2c3e50;
-  --text-light: #7f8c8d;
-  --bg-light: #f8f9fa;
-  --border-color: #e9ecef;
-  
-  /* Espaçamentos e Tamanhos */
-  --radius: 8px;
-  --shadow: 0 4px 6px rgba(0,0,0,0.05);
-  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+@import url('./app/styles/variables.css');
 
-/* 2. RESET BÁSICO */
+/* RESET BÁSICO */
 * {
   box-sizing: border-box;
 }
 
-body {
-  font-family: var(--font-family);
-  background-color: #f4f7f6;
-  margin: 0;
-  color: var(--text-dark);
+html {
+  font-size: 16px;
 }
 
-/* 3. LAYOUT E CONTAINERS */
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg-lighter);
+  margin: 0;
+  padding: 0;
+  color: var(--color-text-dark);
+  line-height: var(--line-height-normal);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+h1 { font-size: var(--font-size-xxl); }
+h2 { font-size: var(--font-size-xl); }
+h3 { font-size: var(--font-size-lg); }
+h4, h5, h6 { font-size: var(--font-size-base); }
+
+p {
+  margin: 0;
+  line-height: var(--line-height-normal);
+}
+
+/* LAYOUT E CONTAINERS */
+
 .page-container {
-  padding: 20px;
+  padding: var(--spacing-lg);
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .card {
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
-  border: 1px solid var(--border-color);
-  overflow: hidden; /* Para tabelas arredondadas */
+  background: var(--color-bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  transition: box-shadow var(--transition-base);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 /* Cabeçalho Padrão de Página (Título + Botão) */
@@ -54,144 +66,387 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: var(--spacing-xl);
+  gap: var(--spacing-md);
 }
 
 .page-header h2 {
-  font-size: 1.8rem;
-  color: var(--text-dark);
+  font-size: var(--font-size-xxl);
+  color: var(--color-text-dark);
   margin: 0;
+  flex: 1;
 }
 
-/* 4. BOTÕES GENÉRICOS */
+/* Container para ações/botões */
+.page-actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+/* BOTÕES GENÉRICOS */
+
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
   text-decoration: none;
-  transition: all 0.2s;
+  transition: all var(--transition-base);
+  white-space: nowrap;
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tamanhos */
 .btn-sm {
-  padding: 6px 12px;
-  font-size: 0.85rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
 }
 
-/* Variantes de Botão */
+.btn-lg {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-lg);
+}
+
+/* Variantes - Solid */
 .btn-primary {
-  background-color: var(--primary);
+  background-color: var(--color-primary);
   color: white;
 }
-.btn-primary:hover { background-color: var(--primary-hover); }
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
 
 .btn-success {
-  background-color: var(--success);
+  background-color: var(--color-success);
   color: white;
 }
-.btn-success:hover { background-color: var(--success-hover); }
+.btn-success:hover:not(:disabled) {
+  background-color: var(--color-success-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
 
 .btn-danger {
-  background-color: transparent;
-  color: var(--danger);
-  border: 1px solid var(--danger);
-}
-.btn-danger:hover {
-  background-color: var(--danger);
+  background-color: var(--color-danger);
   color: white;
+}
+.btn-danger:hover:not(:disabled) {
+  background-color: var(--color-danger-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .btn-warning {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: var(--color-warning);
+  color: white;
+}
+.btn-warning:hover:not(:disabled) {
+  background-color: var(--color-warning-hover);
+  box-shadow: var(--shadow-md);
 }
 
-/* 5. TABELAS PADRÃO */
-.table-full {
+.btn-secondary {
+  background-color: var(--color-text-light);
+  color: white;
+}
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-text-dark);
+  box-shadow: var(--shadow-md);
+}
+
+/* Variantes - Outline */
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid currentColor;
+}
+
+.btn-outline-primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn-outline-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-light);
+}
+
+.btn-outline-secondary {
+  color: var(--color-text-medium);
+  border-color: var(--color-text-medium);
+}
+.btn-outline-secondary:hover:not(:disabled) {
+  background-color: var(--color-bg-light);
+}
+
+.btn-outline-danger {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+.btn-outline-danger:hover:not(:disabled) {
+  background-color: var(--color-danger-light);
+}
+
+/* TABELAS PADRÃO */
+
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
   width: 100%;
   border-collapse: collapse;
+  background-color: var(--color-bg-white);
   text-align: left;
 }
 
-.table-full thead {
-  background-color: var(--bg-light);
-  border-bottom: 2px solid var(--border-color);
+.table thead {
+  background-color: var(--color-bg-light);
+  border-bottom: 2px solid var(--color-border);
 }
 
-.table-full th {
-  padding: 15px;
-  font-size: 0.85rem;
+.table th {
+  padding: var(--spacing-md);
+  font-size: var(--font-size-sm);
   text-transform: uppercase;
-  color: var(--text-light);
-  font-weight: 700;
+  color: var(--color-text-light);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.5px;
 }
 
-.table-full td {
-  padding: 15px;
-  border-bottom: 1px solid var(--border-color);
+.table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
   vertical-align: middle;
 }
 
-.table-full tbody tr:hover {
+.table tbody tr:hover {
   background-color: #fafafa;
+  transition: background-color var(--transition-fast);
 }
 
-/* 6. FORMULÁRIOS */
+/* Ações em tabelas */
+.table-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+/* FORMULÁRIOS */
+
+.form-container {
+  background: var(--color-bg-white);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 600px;
+  margin: var(--spacing-xl) auto;
+}
+
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.form-group-inline {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
 }
 
 .form-label {
   display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  color: var(--text-dark);
+  margin-bottom: var(--spacing-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-dark);
+  font-size: var(--font-size-base);
 }
 
-.form-control {
+.form-label.required::after {
+  content: '*';
+  color: var(--color-danger);
+  margin-left: 4px;
+}
+
+.form-control,
+.form-select,
+textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: var(--radius);
-  font-size: 1rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  transition: all var(--transition-base);
+  background-color: var(--color-bg-white);
 }
 
-.form-control:focus {
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
+.form-control::placeholder {
+  color: var(--color-text-muted);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-help {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+}
+
+.form-error {
+  border-color: var(--color-danger) !important;
+}
+
+.form-error-message {
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-xs);
+}
+
+/* Ações de Formulário */
+.form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+/* BADGES E LABELS */
+
 .badge {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .badge-success {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: var(--color-success);
+  color: white;
 }
 
 .badge-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.badge-info {
-  background-color: #cce5ff;
-  color: #004085;
+  background-color: var(--color-danger);
+  color: white;
 }
 
 .badge-warning {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: var(--color-warning);
+  color: white;
+}
+
+.badge-info {
+  background-color: var(--color-info);
+  color: white;
+}
+
+.badge-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* UTILITÁRIOS */
+
+.text-muted {
+  color: var(--color-text-light);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-success {
+  color: var(--color-success);
+  font-weight: var(--font-weight-bold);
+}
+
+.text-danger {
+  color: var(--color-danger);
+  font-weight: var(--font-weight-bold);
+}
+
+.text-warning {
+  color: var(--color-warning);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Estados */
+.empty-state,
+.loading,
+.no-data {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-light);
+}
+
+.empty-state p,
+.no-data p {
+  margin: var(--spacing-md) 0 0;
+}
+
+/* Alerts/Mensagens */
+.alert {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border-left: 4px solid;
+  margin-bottom: var(--spacing-lg);
+}
+
+.alert-success {
+  background-color: var(--color-success-light);
+  border-color: var(--color-success);
+  color: var(--color-success-hover);
+}
+
+.alert-danger {
+  background-color: var(--color-danger-light);
+  border-color: var(--color-danger);
+  color: var(--color-danger-hover);
+}
+
+.alert-warning {
+  background-color: var(--color-warning-light);
+  border-color: var(--color-warning);
+  color: var(--color-warning-hover);
+}
+
+.alert-info {
+  background-color: var(--color-info-light);
+  border-color: var(--color-info);
+  color: var(--color-info);
 }

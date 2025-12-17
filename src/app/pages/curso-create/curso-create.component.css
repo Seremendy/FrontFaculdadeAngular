@@ -1,98 +1,10 @@
-.form-container { 
-  max-width: 600px; 
-  margin: 40px auto; 
-  padding: 30px; 
-  background: white; 
-  border-radius: 8px; 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-  font-family: sans-serif; 
-}
+/* ============================================================================
+   CURSO CREATE - Estilos específicos (mínimos)
+   ============================================================================
+   Use as classes globais de src/styles.css (page-container, form-container,
+   form-group, form-row, form-label, form-control, form-actions, btn, card,
+   table-container, table). Este arquivo fica para ajustes pontuais.
+   ============================================================================ */
 
-h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
-
-.form-group { margin-bottom: 15px; }
-label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-
-input { 
-  width: 100%; 
-  padding: 10px; 
-  border: 1px solid #ddd; 
-  border-radius: 5px; 
-  box-sizing: border-box; 
-  font-size: 1rem;
-}
-input:focus { outline: none; border-color: #3498db; }
-
-.row { display: flex; gap: 15px; }
-.row .form-group { flex: 1; }
-
-.alert.error {
-  background-color: #fee2e2;
-  color: #b91c1c;
-  padding: 1rem;
-  border-radius: 5px;
-  margin-bottom: 1.5rem;
-  border: 1px solid #fecaca;
-  text-align: center;
-}
-
-.actions { display: flex; gap: 10px; margin-top: 25px; }
-
-button { 
-  flex: 1; 
-  padding: 12px; 
-  border: none; 
-  border-radius: 5px; 
-  cursor: pointer; 
-  font-weight: bold; 
-  color: white; 
-  transition: opacity 0.2s;
-}
-
-.btn-salvar { background-color: #27ae60; }
-.btn-salvar:hover:not(:disabled) { background-color: #219150; }
-.btn-salvar:disabled { background-color: #95a5a6; cursor: not-allowed; }
-
-.btn-cancelar { background-color: #95a5a6; }
-.btn-cancelar:hover { background-color: #7f8c8d; }
-
-/* Estilos da Lista de Ajuda */
-.separator {
-  margin: 30px 0;
-  border: 0;
-  border-top: 1px solid #eee;
-}
-
-.help-section {
-  background-color: #f8fafc;
-  padding: 15px;
-  border-radius: 6px;
-  border: 1px solid #e2e8f0;
-}
-
-.help-section h3 {
-  font-size: 1.1rem;
-  margin-top: 0;
-  color: #475569;
-}
-
-.table-mini-container {
-  overflow-x: auto;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-.data-table th, .data-table td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #cbd5e1;
-}
-
-.data-table th {
-  background-color: #e2e8f0;
-  color: #334155;
-}
+/* Exemplo de ajuste pontual (mantenha se precisar) */
+/* .form-container { max-width: 700px; } */
