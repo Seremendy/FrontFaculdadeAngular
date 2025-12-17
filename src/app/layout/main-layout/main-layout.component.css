@@ -1,0 +1,137 @@
+/* Layout Principal: Sidebar Fixa + Conteúdo Fluido */
+.layout-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f7f6; /* Fundo cinza claro para o conteúdo */
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.logo-area {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.logo-area h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* --- MENU --- */
+.menu {
+  flex: 1; /* Ocupa o espaço disponível */
+  padding: 1.5rem 0;
+  overflow-y: auto; /* Permite rolar o menu se for muito grande */
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 25px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  border-left: 4px solid transparent;
+}
+
+.menu li a:hover {
+  background-color: rgba(255,255,255,0.1);
+  color: white;
+  padding-left: 30px; /* Efeito de deslize */
+}
+
+/* Classe 'active' adicionada automaticamente pelo routerLinkActive */
+.menu li a.active {
+  background-color: rgba(255,255,255,0.15);
+  color: white;
+  border-left-color: #4facfe; /* Azul claro destaque */
+  font-weight: 600;
+}
+
+.icon {
+  margin-right: 12px;
+  font-size: 1.1rem;
+}
+
+/* --- SEÇÃO ADMIN --- */
+.admin-section {
+  margin-top: 15px;
+  padding: 10px 25px 5px;
+}
+
+.section-title {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* --- USER PROFILE (Rodapé) --- */
+.user-profile {
+  padding: 1.5rem;
+  background-color: rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-info p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.user-info small {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+.btn-logout {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.btn-logout:hover {
+  background-color: rgba(255,0,0,0.2);
+}
+
+/* --- CONTEÚDO PRINCIPAL --- */
+.content-area {
+  flex: 1; /* Ocupa o resto da largura */
+  padding: 2rem;
+  overflow-y: auto; /* O conteúdo rola independentemente do menu */
+}

@@ -1,1 +1,43 @@
-<p>usuario-list works!</p>
+<div class="page-container">
+  <header class="page-header">
+    <h2>🔐 Usuários do Sistema</h2>
+    <a routerLink="/register" class="btn btn-success">+ Novo Usuário</a>
+  </header>
+
+  <div class="card">
+    <table class="table-full">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Login</th>
+          <th>Perfil (Role)</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of usuarios; track user.usuarioID) {
+          <tr>
+            <td>#{{ user.usuarioID }}</td>
+            <td><strong>{{ user.login }}</strong></td>
+            <td>
+              <span class="badge" 
+                    [class.badge-info]="user.role === 'Admin'" 
+                    [class.badge-warning]="user.role !== 'Admin'">
+                {{ user.role }}
+              </span>
+            </td>
+            <td>
+              <button (click)="deletarUsuario(user.usuarioID)" class="btn btn-sm btn-danger">🗑️ Excluir</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="text-center" style="padding: 20px; color: #999;">
+              Nenhum usuário encontrado.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

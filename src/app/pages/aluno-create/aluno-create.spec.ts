@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AlunoCreate } from './aluno-create';
+import { AlunoCreateComponent } from './aluno-create.component';
 
 describe('AlunoCreate', () => {
-  let component: AlunoCreate;
-  let fixture: ComponentFixture<AlunoCreate>;
-
+  let component: AlunoCreateComponent;
+  let fixture: ComponentFixture<AlunoCreateComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AlunoCreate]
+      imports: [AlunoCreateComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AlunoCreate);
+    fixture = TestBed.createComponent(AlunoCreateComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

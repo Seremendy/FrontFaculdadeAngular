@@ -88,29 +88,12 @@ export class RegisterComponent {
     };
 
     this.authService.register(dados).subscribe({
-      next: (response) => {
-        this.sucesso = true;
-        this.loading = false;
-        this.mensagem = 'Usuário criado com sucesso!';
-        this.limparFormulario();
-        
-      },
-      error: (err) => {
-        console.dir(err);
-        this.sucesso = false;
-        this.loading = false;
-
-        
-        if (err.error && err.error.errors) {
-          const chavesErros = Object.keys(err.error.errors);
-          if (chavesErros.length > 0) {
-             const primeiraChave = chavesErros[0];
-             this.mensagem = err.error.errors[primeiraChave][0];
-          }
-        } else {
-          this.mensagem = err.error?.message || 'Erro ao criar usuário.';
-        }
-      }
+      next: (response: any) => {  // <--- Adicione o tipo
+        console.log('Sucesso', response);
+    },
+      error: (err: any) => {      // <--- Adicione o tipo
+        console.error('Erro', err);
+    }
     });
   }
 

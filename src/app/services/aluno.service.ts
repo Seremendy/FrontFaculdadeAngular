@@ -1,42 +1,33 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { Aluno } from '../models/aluno.model';
 
-export interface Aluno {
-  alunoID?: number;
-  alunoNome: string;
-  cpf: string;
-  rg: string;
-  dataNascimento: string; 
-}
+
 
 @Injectable({ providedIn: 'root' })
 export class AlunoService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7174/api/Alunos';
+  private apiUrl = `${environment.apiUrl}/Alunos`;
 
-  
-  getAlunos(): Observable<Aluno[]> {
+  getAll(): Observable<Aluno[]> {
     return this.http.get<Aluno[]>(this.apiUrl);
   }
 
-  
   getById(id: number): Observable<Aluno> {
     return this.http.get<Aluno>(`${this.apiUrl}/${id}`);
   }
 
-  
   create(aluno: Aluno): Observable<Aluno> {
     return this.http.post<Aluno>(this.apiUrl, aluno);
   }
 
-  
   update(id: number, aluno: Aluno): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, aluno);
   }
 
-  
-  deleteAluno(id: number): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

@@ -1,19 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Professor {
-  professorID?: number;
-  professorNome: string; 
-  formacao: string;
-  email: string;
-}
+import { environment } from '../../environments/environment';
+import { Professor } from '../models/professor.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProfessorService {
   private http = inject(HttpClient);
-  
-  private apiUrl = 'https://localhost:7174/api/Professores'; 
+  private apiUrl = `${environment.apiUrl}/Professores`; 
 
   getAll(): Observable<Professor[]> {
     return this.http.get<Professor[]>(this.apiUrl);

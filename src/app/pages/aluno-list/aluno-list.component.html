@@ -1,1 +1,39 @@
-<p>aluno-list works!</p>
+<div class="page-container">
+      <header>
+        <h2>👨‍🎓 Gerenciamento de Alunos</h2>
+        <button class="btn-novo" (click)="irParaNovo()">+ Novo Aluno</button>
+      </header>
+
+      @if (loading) {
+        <p class="loading">Carregando alunos...</p>
+      } @else {
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>RG</th> <th>CPF</th>
+                <th>Nascimento</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (aluno of alunos; track aluno.alunoID) {
+                <tr>
+                  <td><strong>{{ aluno.alunoNome }}</strong></td> 
+                  <td>{{ aluno.rg }}</td>
+                  <td>{{ aluno.cpf }}</td>
+                  <td>{{ aluno.dataNascimento | date:'dd/MM/yyyy' }}</td>
+                  <td>
+                    <button class="btn-editar" (click)="editar(aluno.alunoID!)">Editar</button>
+                    <button class="btn-excluir" (click)="deletar(aluno.alunoID!)">Excluir</button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr><td colspan="5" class="empty">Nenhum aluno cadastrado.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>

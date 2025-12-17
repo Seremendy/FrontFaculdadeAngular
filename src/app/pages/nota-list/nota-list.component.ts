@@ -1,121 +1,93 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { NotaService, Nota } from '../../services/nota.service';
-import { AlunoService, Aluno } from '../../services/aluno.service';
-import { DisciplinaService, Disciplina } from '../../services/disciplina.service';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, DecimalPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms'; // <--- IMPORTANTE PARA O SELECT FUNCIONAR
+import { forkJoin } from 'rxjs';
+
+import { NotaService } from '../../services/nota.service';
+import { AlunoService } from '../../services/aluno.service';
+import { DisciplinaService } from '../../services/disciplina.service';
 
 @Component({
   selector: 'app-nota-list',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="page-container">
-      <header>
-        <h2>📊 Diário de Notas</h2>
-        <button class="btn-novo" (click)="irParaNovo()">+ Lançar Nota</button>
-      </header>
-
-      @if (loading) { <p class="loading">Carregando notas...</p> } 
-      @else {
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Aluno</th>
-                <th>Disciplina</th>
-                <th>Nota</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (nota of notas; track nota.notaID) {
-                <tr>
-                  <td>{{ getNomeAluno(nota.alunoID) }}</td>
-                  <td>{{ getNomeDisciplina(nota.disciplinaID) }}</td>
-                  
-                  <td [style.color]="nota.notaValor < 6 ? 'red' : 'green'" style="font-weight:bold">
-                    {{ nota.notaValor }}
-                  </td>
-                  
-                  <td>
-                    <button class="btn-editar" (click)="editar(nota.notaID!)">Editar</button>
-                    <button class="btn-excluir" (click)="deletar(nota.notaID!)">Excluir</button>
-                  </td>
-                </tr>
-              } @empty { <tr><td colspan="4" class="empty">Nenhuma nota lançada.</td></tr> }
-            </tbody>
-          </table>
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .page-container { padding: 30px; font-family: sans-serif; max-width: 1000px; margin: 0 auto; }
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-    th { background-color: #f8f9fa; font-weight: bold; }
-    .btn-novo { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
-    .btn-excluir { background: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
-    .btn-editar { background: #ffc107; padding: 5px 10px; margin-right: 5px; border: none; border-radius: 4px; cursor: pointer; }
-    .loading, .empty { text-align: center; padding: 20px; color: #666; }
-  `]
+  imports: [CommonModule, RouterLink, DecimalPipe, FormsModule], 
+  templateUrl: './nota-list.component.html'
 })
 export class NotaListComponent implements OnInit {
-  private router = inject(Router);
   private notaService = inject(NotaService);
   private alunoService = inject(AlunoService);
   private disciplinaService = inject(DisciplinaService);
 
-  notas: Nota[] = [];
-  alunos: Aluno[] = [];
-  disciplinas: Disciplina[] = [];
+  // Dados brutos
+  todasAsNotas: any[] = []; // Guarda tudo o que veio do banco
+  alunos: any[] = [];       // Para preencher o dropdown
+  
+  // Dados exibidos
+  notasFiltradas: any[] = []; // O que aparece na tabela
+  alunoSelecionadoID: number = 0; // O ID do aluno escolhido no dropdown
+
   loading = true;
+  errorMessage = '';
 
   ngOnInit() {
-    this.carregarTudo();
+    this.carregarDados();
   }
 
-  carregarTudo() {
+  carregarDados() {
     this.loading = true;
-    
-    this.notaService.getAll().subscribe(notas => {
-        this.notas = notas;
-        
-        this.alunoService.getAlunos().subscribe(alunos => {
-            this.alunos = alunos;
-            
-            this.disciplinaService.getAll().subscribe(disc => {
-                this.disciplinas = disc;
-                this.loading = false;
-            });
+
+    forkJoin({
+      listaNotas: this.notaService.getAll(),
+      listaAlunos: this.alunoService.getAll(),
+      listaDisciplinas: this.disciplinaService.getAll()
+    }).subscribe({
+      next: (resultado) => {
+        this.alunos = resultado.listaAlunos; // Guardamos a lista de alunos para o select
+
+        // Mapeamos todas as notas (cruzando os dados)
+        this.todasAsNotas = resultado.listaNotas.map(nota => {
+          const aluno = resultado.listaAlunos.find(a => a.alunoID === nota.alunoID);
+          const disciplina = resultado.listaDisciplinas.find(d => d.disciplinaID === nota.disciplinaID);
+
+          return {
+            ...nota,
+            alunoNome: aluno ? aluno.alunoNome : 'Desconhecido',
+            nomeDisciplina: disciplina ? disciplina.nomeDisciplina : 'Desconhecida'
+          };
         });
+
+        // Inicialmente mostramos tudo (ou nada, se preferir)
+        this.filtrarNotas(); 
+        
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Erro ao carregar dados.';
+        this.loading = false;
+      }
     });
   }
 
-  getNomeAluno(id: number): string {
-    const encontrado = this.alunos.find(a => a.alunoID === id);
-    return encontrado ? encontrado.alunoNome : 'Desconhecido';
-  }
-
-  getNomeDisciplina(id: number): string {
-    const encontrado = this.disciplinas.find(d => d.disciplinaID === id);
-    return encontrado ? encontrado.nomeDisciplina : 'Desconhecida';
-  }
-
-  deletar(id: number) { 
-    if(confirm('Excluir nota?')) {
-        this.notaService.delete(id).subscribe(() => this.carregarTudo());
+  // Essa função roda toda vez que você muda o Select
+  filtrarNotas() {
+    if (this.alunoSelecionadoID == 0) {
+      // Se selecionou "Todos" ou nada, mostra tudo
+      this.notasFiltradas = this.todasAsNotas;
+    } else {
+      // Filtra apenas as notas daquele ID
+      // Importante: converter para Number pois o value do select pode vir como string
+      this.notasFiltradas = this.todasAsNotas.filter(n => n.alunoID === Number(this.alunoSelecionadoID));
     }
   }
 
-  irParaNovo() {
-    this.router.navigate(['/notas/novo']);
-  }
-
-
-  editar(id: number) {
-    this.router.navigate(['/notas/editar', id]);
+  excluir(id: number) {
+    if (confirm('Tem certeza que deseja excluir esta nota?')) {
+      this.notaService.delete(id).subscribe({
+        next: () => this.carregarDados(), // Recarrega tudo
+        error: () => alert('Erro ao excluir nota.')
+      });
+    }
   }
 }

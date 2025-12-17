@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AlunoEdit } from './aluno-edit';
+import { AlunoEditComponent } from './aluno-edit.component';
 
 describe('AlunoEdit', () => {
-  let component: AlunoEdit;
-  let fixture: ComponentFixture<AlunoEdit>;
-
+  let component: AlunoEditComponent;
+  let fixture: ComponentFixture<AlunoEditComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AlunoEdit]
+      imports: [AlunoEditComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AlunoEdit);
+    fixture = TestBed.createComponent(AlunoEditComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

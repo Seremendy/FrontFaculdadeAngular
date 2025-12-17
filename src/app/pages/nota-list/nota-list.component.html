@@ -1,1 +1,64 @@
-<p>nota-list works!</p>
+<div class="page-container">
+  
+  <header class="page-header">
+    <h2>📊 Notas e Avaliações</h2>
+    <a routerLink="/notas/novo" class="btn btn-success">+ Lançar Nota</a>
+  </header>
+
+  <div class="card" style="margin-bottom: 20px; background-color: #f8f9fa;">
+    <div class="form-group" style="margin-bottom: 0;">
+      <label class="form-label">📂 Selecione o Aluno para ver as notas:</label>
+      <select class="form-control" [(ngModel)]="alunoSelecionadoID" (change)="filtrarNotas()">
+        <option [value]="0">-- Ver Todos os Alunos --</option>
+        @for (aluno of alunos; track aluno.alunoID) {
+          <option [value]="aluno.alunoID">{{ aluno.alunoNome }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <table class="table-full">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Aluno</th>
+          <th>Disciplina</th>
+          <th>Nota</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (nota of notasFiltradas; track nota.notaID) {
+          <tr>
+            <td>#{{ nota.notaID }}</td>
+            <td><strong>{{ nota.alunoNome }}</strong></td>
+            <td>{{ nota.nomeDisciplina }}</td>
+            <td>
+              <span class="badge" 
+                    [class.badge-success]="nota.notaValor >= 6" 
+                    [class.badge-danger]="nota.notaValor < 6">
+                {{ nota.notaValor | number:'1.1-1' }}
+              </span>
+            </td>
+            <td>
+              <a [routerLink]="['/notas/editar', nota.notaID]" class="btn btn-sm btn-warning">✏️</a>
+              <button (click)="excluir(nota.notaID)" class="btn btn-sm btn-danger">🗑️</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="text-center" style="padding: 30px; color: #999;">
+              @if (alunoSelecionadoID == 0) {
+                Nenhuma nota lançada no sistema.
+              } @else {
+                Este aluno ainda não possui notas lançadas.
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -1,48 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProfessorService, Professor } from '../../services/professor.service';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ProfessorService } from '../../services/professor.service';
+import { Professor } from '../../models/professor.model';
 
 @Component({
   selector: 'app-professor-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
-    <div class="form-container">
-      <h2>✏️ Editar Professor</h2>
-      
-      <div class="form-group">
-        <label>Nome:</label>
-        <input [(ngModel)]="nome" type="text">
-      </div>
-      <div class="form-group">
-        <label>Formação:</label>
-        <input [(ngModel)]="formacao" type="text">
-      </div>
-      <div class="form-group">
-        <label>Email:</label>
-        <input [(ngModel)]="email" type="email">
-      </div>
-
-      <div class="actions">
-        <button class="btn-salvar" (click)="atualizar()">Atualizar</button>
-        <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
-      </div>
-    </div>
-  `,
-  
-  styles: [`
-    .form-container { max-width: 500px; margin: 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: sans-serif; }
-    h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-    input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-    .actions { display: flex; gap: 10px; margin-top: 20px; }
-    button { flex: 1; padding: 12px; border: none; border-radius: 5px; cursor: pointer; color: white; font-weight: bold; }
-    .btn-salvar { background-color: #f39c12; }
-    .btn-cancelar { background-color: #95a5a6; }
-  `]
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './professor-edit.component.html', 
+  styleUrl: './professor-edit.component.css'       
 })
 export class ProfessorEditComponent implements OnInit {
   private service = inject(ProfessorService);
@@ -50,42 +18,58 @@ export class ProfessorEditComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   id = 0;
-  nome = '';
-  formacao = '';
-  email = '';
+  professor: Professor | null = null; 
+  
+  isLoading = true;
+  errorMessage = '';
 
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    if (this.id) this.carregar();
+    
+    if (this.id) {
+      this.carregar();
+    } else {
+      this.cancelar();
+    }
   }
 
   carregar() {
+    this.isLoading = true;
     this.service.getById(this.id).subscribe({
       next: (prof) => {
-        this.nome = prof.professorNome;
-        this.formacao = prof.formacao;
-        this.email = prof.email;
+        this.professor = prof;
+        this.isLoading = false;
       },
-      error: (e: any) => console.error(e)
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Professor não encontrado.';
+        this.isLoading = false;
+        // Redireciona após 2s se der erro
+        setTimeout(() => this.router.navigate(['/professores']), 2000);
+      }
     });
   }
 
   atualizar() {
-    const prof: Professor = {
-      professorID: this.id,
-      professorNome: this.nome,
-      formacao: this.formacao,
-      email: this.email
-    };
+    if (!this.professor) return;
 
-    this.service.update(this.id, prof).subscribe({
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.service.update(this.id, this.professor).subscribe({
       next: () => {
-        alert('Professor atualizado!');
+        // Sucesso
         this.router.navigate(['/professores']);
       },
-      error: (e: any) => console.error(e)
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Erro ao atualizar dados. Tente novamente.';
+        this.isLoading = false;
+      }
     });
   }
 
-  cancelar() { this.router.navigate(['/professores']); }
+  cancelar() {
+    this.router.navigate(['/professores']);
+  }
 }

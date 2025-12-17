@@ -5,6 +5,11 @@ export interface LoginRequest {
 
 export interface LoginResponse {
     token: string;
-    usuario?: string;
-    role?: string;
+    // Removemos usuario e role pois o Backend NÃO devolve mais isso no corpo do login
+}
+
+export interface RegisterRequest {
+    login: string;
+    senha: string;
+    role: string;
 }

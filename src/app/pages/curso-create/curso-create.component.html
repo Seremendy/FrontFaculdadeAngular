@@ -1,1 +1,78 @@
-<p>curso-create works!</p>
+<div class="form-container">
+  <h2>📚 Novo Curso</h2>
+  
+  @if (errorMessage) {
+    <div class="alert error">{{ errorMessage }}</div>
+  }
+
+  <form (ngSubmit)="salvar()">
+    
+    <div class="form-group">
+      <label>Nome do Curso *</label>
+      <input 
+        [(ngModel)]="curso.nomeCurso" 
+        name="nome" 
+        type="text" 
+        placeholder="Ex: Engenharia de Software" 
+        required
+        [disabled]="isLoading">
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>ID Departamento *</label>
+        <input 
+          [(ngModel)]="curso.departamentoID" 
+          name="departamentoID" 
+          type="number"
+          placeholder="Consulte a tabela abaixo 👇"
+          required
+          [disabled]="isLoading">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-salvar" [disabled]="isLoading">
+        @if (isLoading) {
+          <span>Salvando...</span>
+        } @else {
+          <span>Salvar Curso</span>
+        }
+      </button>
+      
+      <button type="button" class="btn-cancelar" (click)="cancelar()" [disabled]="isLoading">
+        Cancelar
+      </button>
+    </div>
+
+  </form>
+
+  <hr class="separator">
+  
+  <div class="help-section">
+    <h3>🔍 Departamentos Disponíveis</h3>
+    <p>Copie o <strong>ID</strong> da tabela abaixo e cole no campo acima.</p>
+    
+    <div class="table-mini-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (dept of departamentos; track dept.departamentoID) {
+            <tr>
+              <td><strong>{{ dept.departamentoID }}</strong></td>
+              <td>{{ dept.departamentoNome }}</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="3">Nenhum departamento encontrado. Cadastre um no banco!</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

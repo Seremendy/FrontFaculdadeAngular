@@ -1,0 +1,160 @@
+/* Container da Página */
+.page-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Cabeçalho (Título e Botão Novo) */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+header h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Botão Novo (+ Nova Matrícula) */
+.btn-novo {
+  background-color: #28a745; /* Verde Sucesso */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-novo:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+.btn-novo:active {
+  transform: translateY(0);
+}
+
+/* Container da Tabela (Efeito de Card) */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sombra suave */
+  overflow: hidden; /* Garante que as bordas arredondadas funcionem */
+  border: 1px solid #eaeaea;
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #e9ecef;
+}
+
+th {
+  padding: 16px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+  font-weight: 700;
+}
+
+td {
+  padding: 16px;
+  border-bottom: 1px solid #f1f1f1;
+  color: #333;
+  vertical-align: middle;
+}
+
+/* Efeito Hover nas linhas */
+tbody tr:hover {
+  background-color: #fcfcfc;
+}
+
+/* Destaque para o ID */
+td:first-child {
+  font-weight: bold;
+  color: #666;
+  width: 60px;
+}
+
+/* Botão de Ação (Lixeira) */
+.btn-excluir {
+  background-color: #fff0f1;
+  color: #dc3545;
+  border: 1px solid #ffc9c9;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1.1rem; /* Aumenta o ícone */
+}
+
+.btn-excluir:hover {
+  background-color: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+/* Estados de Carregamento e Erro */
+.loading-state, .empty {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+}
+
+/* Spinner de Loading */
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db; /* Azul */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsividade Básica */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 10px;
+  }
+  
+  th, td {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .btn-novo {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+}

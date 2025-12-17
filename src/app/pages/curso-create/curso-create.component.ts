@@ -1,65 +1,72 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CursoService, Curso } from '../../services/curso.service';
+import { Router, RouterModule } from '@angular/router';
+import { CursoService } from '../../services/curso.service';
+import { DepartamentoService } from '../../services/departamento.service';
+import { Curso } from '../../models/curso.model';
+import { Departamento } from '../../models/departamento.model';
 
 @Component({
   selector: 'app-curso-create',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
-    <div class="container">
-      <h2>Novo Curso</h2>
-      
-      <label>Nome:</label>
-      <input [(ngModel)]="nomeCurso" type="text" placeholder="Ex: Engenharia">
-
-      <label>Descrição:</label>
-      <input [(ngModel)]="descricao" type="text" placeholder="Ex: Curso de bacharelado...">
-
-      <label>Mensalidade (R$):</label>
-      <input [(ngModel)]="mensalidade" type="number">
-
-      <label>ID Departamento:</label>
-      <input [(ngModel)]="departamentoID" type="number">
-
-      <button (click)="salvar()">Salvar</button>
-      <button (click)="cancelar()">Cancelar</button>
-    </div>
-  `,
-  styles: [`
-     .container { padding: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 400px; }
-     input { padding: 8px; }
-     button { padding: 10px; cursor: pointer; }
-  `]
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './curso-create.component.html',
+  styleUrl: './curso-create.component.css'
 })
-export class CursoCreateComponent {
+export class CursoCreateComponent implements OnInit {
   private cursoService = inject(CursoService);
+  private departamentoService = inject(DepartamentoService);
   private router = inject(Router);
 
-  
-  nomeCurso = '';
-  descricao = '';
-  mensalidade = 0;
-  departamentoID = 0; 
+  // Lista para exibir na tabela de ajuda
+  departamentos: Departamento[] = [];
+
+  // Objeto do formulário
+  curso: Curso = {
+    cursoID: 0,
+    nomeCurso: '',
+    departamentoID: 0,
+  };
+
+  isLoading = false;
+  errorMessage = '';
+
+  ngOnInit() {
+    this.carregarDepartamentos();
+  }
+
+  carregarDepartamentos() {
+    this.departamentoService.getAll().subscribe({
+      next: (dados) => {
+        this.departamentos = dados;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar departamentos', err);
+      }
+    });
+  }
 
   salvar() {
-    const novoCurso: Curso = {
-      nomeCurso: this.nomeCurso,
-      descricao: this.descricao,
-      mensalidade: this.mensalidade,
-      departamentoID: this.departamentoID
-    };
+    // Validação
+    if (!this.curso.nomeCurso || !this.curso.departamentoID) {
+      this.errorMessage = 'Preencha o Nome e escolha um ID de Departamento da lista!';
+      return;
+    }
 
-    this.cursoService.cadastrar(novoCurso).subscribe({
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.cursoService.create(this.curso).subscribe({
       next: () => {
-        alert('Curso criado!');
+        alert('Curso criado com sucesso!');
         this.router.navigate(['/cursos']);
       },
       error: (e: any) => {
         console.error(e);
-        alert('Erro ao salvar.');
+        // Tenta pegar erro específico ou mostra genérico
+        this.errorMessage = e.error?.title || 'Erro ao criar curso. Verifique se o ID do Departamento existe.';
+        this.isLoading = false;
       }
     });
   }

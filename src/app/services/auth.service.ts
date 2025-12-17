@@ -1,59 +1,55 @@
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
-import { LoginRequest } from '../models/login-request';
-import { RegisterRequest } from '../models/register-request';
+import { Router } from '@angular/router';
+import { LoginRequest, LoginResponse, RegisterRequest } from '../models/auth.models';
+import { environment } from '../../environments/environment';
+
+export interface UsuarioSistema {
+  usuarioID: number;
+  login: string;
+  role: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private platformId = inject(PLATFORM_ID);
-  private apiUrl = 'https://localhost:7174/api/Auth';
+  private router = inject(Router);
+  private apiUrl = `${environment.apiUrl}/Auth`;
 
+  constructor() { }
 
-  constructor(private https: HttpClient) { }
-
-  login(usuario: LoginRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, usuario).pipe(
+  // --- LOGIN ---
+  login(credenciais: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credenciais).pipe(
       tap(response => {
-        
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-        
-        }
+        localStorage.setItem('auth_token', response.token);
       })
     );
   }
 
-  register(usuario: RegisterRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, usuario);
+  logout() {
+    localStorage.removeItem('auth_token');
+    this.router.navigate(['/login']);
   }
 
   getToken(): string | null {
-    if (isPlatformBrowser(this.platformId)) {
-        return localStorage.getItem('token');
-    }
-    return null;
+    return localStorage.getItem('auth_token');
   }
 
   isLoggedIn(): boolean {
-    if (isPlatformBrowser(this.platformId)) {
-        return !!localStorage.getItem('token');
-    }
-    return false;
+    return !!this.getToken();
   }
 
-  logout(): void {
-    if (isPlatformBrowser(this.platformId)) {
-        localStorage.clear();
-    }
+
+  register(dados: RegisterRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, dados);
   }
 
-  getUsers(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/users`);
+  getUsers(): Observable<UsuarioSistema[]> {
+    return this.http.get<UsuarioSistema[]>(this.apiUrl);
   }
   
   deleteUser(id: number): Observable<any> {

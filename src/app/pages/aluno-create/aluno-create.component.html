@@ -1,1 +1,30 @@
 <p>aluno-create works!</p>
+<div class="form-container">
+      <h2>🎓 Novo Aluno</h2>
+      
+      <div class="form-group">
+        <label>Nome Completo:</label>
+        <input [(ngModel)]="nome" type="text" placeholder="Ex: Maria Silva">
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+            <label>CPF:</label>
+            <input [(ngModel)]="cpf" type="text" placeholder="000.000.000-00" maxlength="11">
+        </div>
+        <div class="form-group">
+            <label>RG:</label>
+            <input [(ngModel)]="rg" type="text" placeholder="00.000.000-0" maxlength="9">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Data de Nascimento:</label>
+        <input [(ngModel)]="dataNascimento" type="date">
+      </div>
+
+      <div class="actions">
+        <button class="btn-salvar" (click)="salvar()">Salvar</button>
+        <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+      </div>
+    </div>

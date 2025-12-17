@@ -1,1 +1,45 @@
-<p>professor-edit works!</p>
+<div class="form-container">
+  <h2>✏️ Editar Professor</h2>
+
+  @if (errorMessage) {
+    <div class="alert error">{{ errorMessage }}</div>
+  }
+
+  @if (isLoading && !professor) {
+    <div class="loading-state">
+      <p>Buscando dados do professor...</p>
+    </div>
+  }
+
+  @if (professor) {
+    <div class="form-content">
+      
+      <div class="form-group">
+        <label>Nome Completo:</label>
+        <input 
+          [(ngModel)]="professor.professorNome" 
+          type="text"
+          [disabled]="isLoading">
+      </div>
+
+      <div class="form-group">
+        <label>Formação (Titulação):</label>
+        <input 
+          [(ngModel)]="professor.formacao" 
+          type="text"
+          [disabled]="isLoading">
+      </div>
+
+      <div class="actions">
+        <button class="btn-salvar" (click)="atualizar()" [disabled]="isLoading">
+          {{ isLoading ? 'Salvando...' : 'Atualizar' }}
+        </button>
+        
+        <button class="btn-cancelar" (click)="cancelar()" [disabled]="isLoading">
+          Cancelar
+        </button>
+      </div>
+
+    </div>
+  }
+</div>

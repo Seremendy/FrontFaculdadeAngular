@@ -1,1 +1,12 @@
-<p>curso-edit works!</p>
+ <div class="container">
+      <h2>Editar Curso</h2>
+      
+      <label>Nome:</label>
+      <input [(ngModel)]="nomeCurso" type="text">
+
+      <label>ID Departamento:</label>
+      <input [(ngModel)]="departamentoID" type="number">
+
+      <button (click)="atualizar()">Atualizar</button>
+      <button (click)="cancelar()">Cancelar</button>
+</div>

@@ -1,0 +1,51 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h2>Acesso Universidade</h2>
+
+    <form (ngSubmit)="fazerLogin()">
+      
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input 
+          id="login" 
+          name="login" 
+          type="text" 
+          placeholder="Digite seu login" 
+          [(ngModel)]="loginData.login"
+          autocomplete="username"
+          required
+          [disabled]="carregando">
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input 
+          id="senha" 
+          name="senha" 
+          type="password" 
+          placeholder="Digite sua senha" 
+          [(ngModel)]="loginData.senha"
+          autocomplete="current-password"
+          required
+          [disabled]="carregando">
+      </div>
+
+      <button type="submit" [disabled]="carregando">
+        @if (carregando) {
+          <span>Validando...</span>
+        } @else {
+          <span>Entrar</span>
+        }
+      </button>
+
+      @if (mensagem) {
+        <p class="feedback-msg" 
+           [class.erro]="!sucesso" 
+           [class.sucesso]="sucesso"
+           role="alert">
+          {{ mensagem }}
+        </p>
+      }
+    </form>
+  </div>
+</div>

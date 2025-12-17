@@ -1,0 +1,87 @@
+<div class="layout-wrapper">
+  
+  <aside class="sidebar">
+    <div class="logo-area">
+      <h2>🎓 UniSystem</h2>
+      <span class="subtitle">Gestão Acadêmica</span>
+    </div>
+
+    <nav class="menu">
+      <ul>
+        <li>
+          <a routerLink="/departamentos" routerLinkActive="active">
+            <span class="icon">🏢</span> Departamentos
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/cursos" routerLinkActive="active">
+            <span class="icon">📚</span> Cursos
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/alunos" routerLinkActive="active">
+            <span class="icon">👨‍🎓</span> Alunos
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/professores" routerLinkActive="active">
+            <span class="icon">👨‍🏫</span> Professores
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/matriculas" routerLinkActive="active">
+            <span class="icon">📝</span> Matrículas
+          </a>
+        </li>
+
+         <li>
+          <a routerLink="/notas" routerLinkActive="active">
+            <span class="icon">📊</span> Notas
+          </a>
+        </li>
+
+        @if (isAdmin) {
+          <li class="admin-section">
+            <span class="section-title">ADMINISTRAÇÃO</span>
+          </li>
+          
+          <li>
+            <a routerLink="/salas" routerLinkActive="active">
+              <span class="icon">🚪</span> Salas
+            </a>
+          </li>
+          <li>
+            <a routerLink="/horarios" routerLinkActive="active">
+              <span class="icon">🕒</span> Horários
+            </a>
+          </li>
+
+          <li>
+            <a routerLink="/usuarios" routerLinkActive="active">
+              <span class="icon">🔐</span> Usuários
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="user-profile">
+      <div class="user-info">
+        <p class="user-name">Usuário</p>
+        <small class="user-role">{{ isAdmin ? 'Administrador' : 'Colaborador' }}</small>
+      </div>
+      <button (click)="sair()" class="btn-logout" title="Sair">
+        🚪
+      </button>
+    </div>
+  </aside>
+
+  <main class="content-area">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

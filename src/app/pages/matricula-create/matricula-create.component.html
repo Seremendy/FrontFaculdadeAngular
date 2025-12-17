@@ -1,0 +1,70 @@
+<div class="form-container">
+  <h2>📝 Nova Matrícula</h2>
+  <p class="subtitle">Associe um aluno a um curso</p>
+
+  @if (errorMessage) {
+    <div class="alert error">{{ errorMessage }}</div>
+  }
+
+  <form (ngSubmit)="salvar()">
+    
+    <div class="form-group">
+      <label for="aluno">Aluno *</label>
+      <select 
+        id="aluno" 
+        [(ngModel)]="selectedAlunoID" 
+        name="aluno" 
+        [disabled]="isLoading"
+        required>
+        <option [ngValue]="0" disabled selected>-- Selecione o Aluno --</option>
+        @for (aluno of alunos; track aluno.alunoID) {
+          <option [ngValue]="aluno.alunoID">
+            {{ aluno.alunoNome }} (CPF: {{ aluno.cpf }})
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="curso">Curso *</label>
+      <select 
+        id="curso" 
+        [(ngModel)]="selectedCursoID" 
+        name="curso" 
+        [disabled]="isLoading"
+        required>
+        <option [ngValue]="0" disabled selected>-- Selecione o Curso --</option>
+        @for (curso of cursos; track curso.cursoID) {
+          <option [ngValue]="curso.cursoID">
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="data">Data da Matrícula</label>
+      <input 
+        id="data" 
+        type="date" 
+        [(ngModel)]="dataMatricula" 
+        name="data" 
+        [disabled]="isLoading"
+        required>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-salvar" [disabled]="isLoading">
+        @if (isLoading) {
+          <span>Processando...</span>
+        } @else {
+          <span>Confirmar Matrícula</span>
+        }
+      </button>
+      
+      <button type="button" class="btn-cancelar" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+
+  </form>
+</div>

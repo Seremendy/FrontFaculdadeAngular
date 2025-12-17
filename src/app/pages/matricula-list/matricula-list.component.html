@@ -1,0 +1,60 @@
+<div class="page-container">
+  <header>
+    <h2>📝 Matrículas Realizadas</h2>
+    <button class="btn-novo" (click)="irParaNovo()">+ Nova Matrícula</button>
+  </header>
+
+  @if (errorMessage) {
+    <div class="alert-error">{{ errorMessage }}</div>
+  }
+
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando registros...</p>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Aluno</th>
+            <th>Curso</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (mat of matriculas; track mat.matriculaID) {
+            <tr>
+              <td>#{{ mat.matriculaID }}</td>
+              
+              <td><strong>{{ mat.alunoNome }}</strong></td>
+              <td>{{ mat.nomeCurso }}</td>
+              
+              <td>{{ mat.dataMatricula | date:'dd/MM/yyyy' }}</td>
+              
+              <td>
+                <span [style.color]="mat.matriculaAtiva ? 'green' : 'red'" style="font-weight: bold;">
+                  {{ mat.matriculaAtiva ? 'Ativa' : 'Cancelada' }}
+                </span>
+              </td>
+
+              <td>
+                <button class="btn-excluir" (click)="deletar(mat.matriculaID)">
+                  🗑️
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty">Nenhuma matrícula encontrada.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

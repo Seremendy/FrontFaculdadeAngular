@@ -1,1 +1,197 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files *//* src/styles.css */
+
+/* 1. VARIÁVEIS GLOBAIS (O Painel de Controle) */
+:root {
+  /* Cores */
+  --primary: #3498db;       /* Azul Principal */
+  --primary-hover: #2980b9;
+  --success: #2ecc71;       /* Verde */
+  --success-hover: #27ae60;
+  --danger: #e74c3c;        /* Vermelho */
+  --danger-hover: #c0392b;
+  --warning: #f1c40f;       /* Amarelo */
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --bg-light: #f8f9fa;
+  --border-color: #e9ecef;
+  
+  /* Espaçamentos e Tamanhos */
+  --radius: 8px;
+  --shadow: 0 4px 6px rgba(0,0,0,0.05);
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 2. RESET BÁSICO */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: #f4f7f6;
+  margin: 0;
+  color: var(--text-dark);
+}
+
+/* 3. LAYOUT E CONTAINERS */
+.page-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  overflow: hidden; /* Para tabelas arredondadas */
+}
+
+/* Cabeçalho Padrão de Página (Título + Botão) */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.page-header h2 {
+  font-size: 1.8rem;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* 4. BOTÕES GENÉRICOS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+/* Variantes de Botão */
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+.btn-primary:hover { background-color: var(--primary-hover); }
+
+.btn-success {
+  background-color: var(--success);
+  color: white;
+}
+.btn-success:hover { background-color: var(--success-hover); }
+
+.btn-danger {
+  background-color: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+.btn-danger:hover {
+  background-color: var(--danger);
+  color: white;
+}
+
+.btn-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* 5. TABELAS PADRÃO */
+.table-full {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table-full thead {
+  background-color: var(--bg-light);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.table-full th {
+  padding: 15px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-weight: 700;
+}
+
+.table-full td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.table-full tbody tr:hover {
+  background-color: #fafafa;
+}
+
+/* 6. FORMULÁRIOS */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.badge-info {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.badge-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
