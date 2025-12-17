@@ -1,11 +1,11 @@
 export interface Matricula {
-matriculaAtiva: any;
   matriculaID?: number;
   alunoID: number;
-  cursoID: number; // Ou turmaID, dependendo da tua regra de negócio
+  cursoID: number;
   dataMatricula: string;
+  matriculaAtiva?: boolean; // <--- Adicione a interrogação (?)
   
-  // Opcionais para listagem (caso venha o objeto aninhado do backend)
+  // Campos opcionais de visualização
   alunoNome?: string;
   nomeCurso?: string;
 }
