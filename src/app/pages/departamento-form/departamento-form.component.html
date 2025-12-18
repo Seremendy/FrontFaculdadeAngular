@@ -1,13 +1,15 @@
 <div class="page-container">
   <div class="form-container">
-    <h2>{{ isEditMode ? '✏️ Editar' : '➕ Novo' }} Departamento</h2>
+    <h2>{{ isEditMode ? 'Editar' : 'Novo' }} Departamento</h2>
 
     <form (ngSubmit)="salvar()">
       
-      <div class="form-group" *ngIf="isEditMode">
-        <label class="form-label">ID</label>
-        <input type="text" [value]="departamento.departamentoID" disabled class="form-control">
-      </div>
+      @if (isEditMode) {
+        <div class="form-group">
+          <label class="form-label">ID</label>
+          <input type="text" [value]="departamento.departamentoID" disabled class="form-control">
+        </div>
+      }
 
       <div class="form-group">
         <label class="form-label required">Nome do Departamento</label>
@@ -22,8 +24,8 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn btn-success">💾 {{ isEditMode ? 'Atualizar' : 'Salvar' }}</button>
-        <a routerLink="/departamentos" class="btn btn-outline btn-outline-secondary">✕ Cancelar</a>
+        <button type="submit" class="btn btn-success">{{ isEditMode ? 'Atualizar' : 'Salvar' }}</button>
+        <a routerLink="/departamentos" class="btn btn-outline btn-outline-secondary">Cancelar</a>
       </div>
     </form>
   </div>

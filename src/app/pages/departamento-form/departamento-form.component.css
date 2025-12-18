@@ -1,84 +1,10 @@
-/* Container Centralizado */
-.form-container {
-  max-width: 600px;
-  margin: 40px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
+/* ============================================================================
+   DEPARTAMENTO FORM - Estilos específicos (mínimos)
+   ============================================================================
+   Use as classes globais de src/styles.css (form-container, form-group,
+   form-label, form-control, form-actions, btn, etc.).
+   Este arquivo fica reservado para ajustes pontuais deste componente.
+   ============================================================================ */
 
-h2 {
-  color: #2c3e50;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-/* Campos do Formulário */
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #555;
-}
-
-.form-control {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-  box-sizing: border-box; /* Garante que o padding não estoure a largura */
-}
-
-.form-control:focus {
-  border-color: #3498db;
-  outline: none;
-}
-
-.form-control:disabled {
-  background-color: #f8f9fa;
-  color: #999;
-}
-
-/* Botões de Ação */
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 30px;
-}
-
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: none;
-  text-align: center;
-}
-
-.btn-primary {
-  background-color: #2ecc71; /* Verde */
-  color: white;
-  flex: 1;
-}
-
-.btn-primary:hover {
-  background-color: #27ae60;
-}
-
-.btn-secondary {
-  background-color: #95a5a6; /* Cinza */
-  color: white;
-}
-
-.btn-secondary:hover {
-  background-color: #7f8c8d;
-}
+/* Exemplo de ajuste pontual (mantenha se precisar) */
+/* .form-container { max-width: 650px; } */

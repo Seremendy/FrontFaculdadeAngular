@@ -6,45 +6,51 @@
     </div>
   </div>
 
-  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  @if (errorMessage) {
+    <div class="alert alert-danger">{{ errorMessage }}</div>
+  }
 
-  <div *ngIf="isLoading && !nota" class="card">
-    <div class="card-body text-muted">Buscando dados da nota...</div>
-  </div>
+  @if (isLoading && !nota) {
+    <div class="card">
+      <div class="card-body text-muted">Buscando dados da nota...</div>
+    </div>
+  }
 
-  <div *ngIf="nota" class="card form-container">
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">ID Aluno</label>
-        <div class="text-muted">{{ nota.alunoID }}</div>
+  @if (nota) {
+    <div class="card form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">ID Aluno</label>
+          <div class="text-muted">{{ nota.alunoID }}</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ID Disciplina</label>
+          <div class="text-muted">{{ nota.disciplinaID }}</div>
+        </div>
       </div>
+
       <div class="form-group">
-        <label class="form-label">ID Disciplina</label>
-        <div class="text-muted">{{ nota.disciplinaID }}</div>
+        <label for="valor" class="form-label">Valor da Nota</label>
+        <input
+          id="valor"
+          class="form-control"
+          type="number"
+          [(ngModel)]="nota.notaValor"
+          placeholder="0.0 a 10.0"
+          step="0.1"
+          min="0"
+          max="10"
+          [disabled]="isLoading">
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-success" (click)="salvar()" [disabled]="isLoading">
+          {{ isLoading ? 'Salvando...' : 'Salvar Alterações' }}
+        </button>
+        <button class="btn btn-outline btn-outline-secondary" (click)="cancelar()" [disabled]="isLoading">
+          Cancelar
+        </button>
       </div>
     </div>
-
-    <div class="form-group">
-      <label for="valor" class="form-label">Valor da Nota</label>
-      <input
-        id="valor"
-        class="form-control"
-        type="number"
-        [(ngModel)]="nota.notaValor"
-        placeholder="0.0 a 10.0"
-        step="0.1"
-        min="0"
-        max="10"
-        [disabled]="isLoading">
-    </div>
-
-    <div class="form-actions">
-      <button class="btn btn-success" (click)="salvar()" [disabled]="isLoading">
-        {{ isLoading ? 'Salvando...' : 'Salvar Alterações' }}
-      </button>
-      <button class="btn btn-outline btn-outline-secondary" (click)="cancelar()" [disabled]="isLoading">
-        Cancelar
-      </button>
-    </div>
-  </div>
+  }
 </div>

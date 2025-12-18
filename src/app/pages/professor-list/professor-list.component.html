@@ -5,53 +5,59 @@
       <h1>Professores</h1>
     </div>
     <div class="page-actions">
-      <button class="btn" (click)="novoProfessor()">
+      <button class="btn btn-primary" (click)="novoProfessor()">
         <span class="btn-label">Adicionar</span>
         <span class="btn-icon">+</span>
       </button>
     </div>
   </div>
 
-  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  @if (errorMessage) {
+    <div class="alert alert-danger">{{ errorMessage }}</div>
+  }
 
-  <div *ngIf="loading" class="card">
-    <div class="card-body text-muted">Carregando professores...</div>
-  </div>
-
-  <div *ngIf="!loading && professores.length === 0" class="card">
-    <div class="card-body text-muted">Nenhum professor encontrado.</div>
-  </div>
-
-  <div *ngIf="!loading && professores.length > 0" class="card table-container">
-    <div class="table-actions">
-      <div class="table-info">Total: {{ professores.length }}</div>
+  @if (loading) {
+    <div class="card">
+      <div class="card-body text-muted">Carregando professores...</div>
     </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Formação</th>
-          <th>CPF</th>
-          <th class="text-right">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let professor of professores">
-          <td>{{ professor.professorNome }}</td>
-          <td>{{ professor.formacao }}</td>
-          <td>{{ professor.cpf }}</td>
-          <td class="text-right">
-            <div class="table-actions">
-              <button class="btn btn-link" (click)="editarProfessor(professor)">
-                <span class="btn-label">Editar</span>
-              </button>
-              <button class="btn btn-link text-danger" (click)="confirmarExcluir(professor)">
-                <span class="btn-label">Excluir</span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  } @else if (professores.length === 0) {
+    <div class="card">
+      <div class="card-body text-muted">Nenhum professor encontrado.</div>
+    </div>
+  } @else {
+    <div class="card table-container">
+      <div class="table-actions">
+        <div class="table-info">Total: {{ professores.length }}</div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Formação</th>
+            <th>CPF</th>
+            <th class="text-right">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (professor of professores; track professor.professorID) {
+            <tr>
+              <td>{{ professor.professorNome }}</td>
+              <td>{{ professor.formacao }}</td>
+              <td>{{ professor.cpf }}</td>
+              <td class="text-right">
+                <div class="table-actions">
+                  <button class="btn btn-link" (click)="editarProfessor(professor)">
+                    <span class="btn-label">Editar</span>
+                  </button>
+                  <button class="btn btn-link text-danger" (click)="confirmarExcluir(professor)">
+                    <span class="btn-label">Excluir</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>

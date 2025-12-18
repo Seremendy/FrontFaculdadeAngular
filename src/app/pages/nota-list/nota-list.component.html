@@ -5,80 +5,90 @@
       <h1>Notas e Avaliações</h1>
     </div>
     <div class="page-actions">
-      <a routerLink="/notas/novo" class="btn">
+      <a routerLink="/notas/novo" class="btn btn-primary">
         <span class="btn-label">Lançar Nota</span>
         <span class="btn-icon">+</span>
       </a>
     </div>
   </div>
 
-  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  @if (errorMessage) {
+    <div class="alert alert-danger">{{ errorMessage }}</div>
+  }
 
-  <div *ngIf="loading" class="card">
-    <div class="card-body text-muted">Carregando notas...</div>
-  </div>
+  @if (loading) {
+    <div class="card">
+      <div class="card-body text-muted">Carregando notas...</div>
+    </div>
+  }
 
-  <div *ngIf="!loading" class="card" style="margin-bottom: 16px;">
-    <div class="form-group" style="margin-bottom: 0;">
-      <label class="form-label">Filtrar por aluno</label>
-      <select class="form-control" [(ngModel)]="alunoSelecionadoID" (change)="filtrarNotas()">
-        <option [value]="0">Todos os alunos</option>
-        @for (aluno of alunos; track aluno.alunoID) {
-          <option [value]="aluno.alunoID">{{ aluno.alunoNome }}</option>
+  @if (!loading) {
+    <div class="card" style="margin-bottom: 16px;">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label class="form-label">Filtrar por aluno</label>
+        <select class="form-control" [(ngModel)]="alunoSelecionadoID" (change)="filtrarNotas()">
+          <option [value]="0">Todos os alunos</option>
+          @for (aluno of alunos; track aluno.alunoID) {
+            <option [value]="aluno.alunoID">{{ aluno.alunoNome }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  }
+
+  @if (!loading && notasFiltradas.length === 0) {
+    <div class="card">
+      <div class="card-body text-muted">
+        @if (alunoSelecionadoID == 0) {
+          Nenhuma nota lançada no sistema.
+        } @else {
+          Este aluno ainda não possui notas lançadas.
         }
-      </select>
+      </div>
     </div>
-  </div>
+  }
 
-  <div *ngIf="!loading && notasFiltradas.length === 0" class="card">
-    <div class="card-body text-muted">
-      @if (alunoSelecionadoID == 0) {
-        Nenhuma nota lançada no sistema.
-      } @else {
-        Este aluno ainda não possui notas lançadas.
-      }
-    </div>
-  </div>
-
-  <div *ngIf="!loading && notasFiltradas.length > 0" class="card table-container">
-    <div class="table-actions">
-      <div class="table-info">Total: {{ notasFiltradas.length }}</div>
-    </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Aluno</th>
-          <th>Disciplina</th>
-          <th>Nota</th>
-          <th class="text-right">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (nota of notasFiltradas; track nota.notaID) {
+  @if (!loading && notasFiltradas.length > 0) {
+    <div class="card table-container">
+      <div class="table-actions">
+        <div class="table-info">Total: {{ notasFiltradas.length }}</div>
+      </div>
+      <table class="table">
+        <thead>
           <tr>
-            <td>#{{ nota.notaID }}</td>
-            <td><strong>{{ nota.alunoNome }}</strong></td>
-            <td>{{ nota.nomeDisciplina }}</td>
-            <td>
-              <span class="badge" [class.badge-success]="nota.notaValor >= 6" [class.badge-danger]="nota.notaValor < 6">
-                {{ nota.notaValor | number:'1.1-1' }}
-              </span>
-            </td>
-            <td class="text-right">
-              <div class="table-actions">
-                <a [routerLink]="['/notas/editar', nota.notaID]" class="btn btn-link">
-                  <span class="btn-label">Editar</span>
-                </a>
-                <button (click)="excluir(nota.notaID)" class="btn btn-link text-danger">
-                  <span class="btn-label">Excluir</span>
-                </button>
-              </div>
-            </td>
+            <th>ID</th>
+            <th>Aluno</th>
+            <th>Disciplina</th>
+            <th>Nota</th>
+            <th class="text-right">Ações</th>
           </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          @for (nota of notasFiltradas; track nota.notaID) {
+            <tr>
+              <td>#{{ nota.notaID }}</td>
+              <td><strong>{{ nota.alunoNome }}</strong></td>
+              <td>{{ nota.nomeDisciplina }}</td>
+              <td>
+                <span class="badge" [class.badge-success]="nota.notaValor >= 6" [class.badge-danger]="nota.notaValor < 6">
+                  {{ nota.notaValor | number:'1.1-1' }}
+                </span>
+              </td>
+              <td class="text-right">
+                <div class="table-actions">
+                  <a [routerLink]="['/notas/editar', nota.notaID]" class="btn btn-link">
+                    <span class="btn-label">Editar</span>
+                  </a>
+                  <button (click)="excluir(nota.notaID)" class="btn btn-link text-danger">
+                    <span class="btn-label">Excluir</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 
 </div>
